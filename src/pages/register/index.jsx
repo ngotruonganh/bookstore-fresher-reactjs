@@ -1,4 +1,4 @@
-import {Button, Checkbox, Col, Form, Input, Row} from 'antd';
+import {Button, Col, Form, Input, Row, Typography} from 'antd';
 
 const onFinish = (values) => {
     console.log('Success:', values);
@@ -8,20 +8,17 @@ const onFinishFailed = (errorInfo) => {
 };
 const Register = () => (
     <Row justify={"center"}>
-        <Col sm={22} xl={12}>
+        <Col xs={22} xl={6}>
+            <Typography.Title>
+                Sign up
+            </Typography.Title>
             <Form
                 name="basic"
                 labelCol={{
-                    span: 8,
+                    span: 24,
                 }}
                 wrapperCol={{
-                    span: 16,
-                }}
-                style={{
-                    maxWidth: 600,
-                }}
-                initialValues={{
-                    remember: true,
+                    span: 24,
                 }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
@@ -81,11 +78,11 @@ const Register = () => (
 
                 <Form.Item
                     wrapperCol={{
-                        offset: 8,
-                        span: 16,
+                        offset: 0,
+                        span: 24,
                     }}
                 >
-                    <Button type="primary" htmlType="submit">
+                    <Button type="primary" htmlType="submit" loading={true} style={{width: "100%", marginTop: "30px"}}>
                         Register
                     </Button>
                 </Form.Item>

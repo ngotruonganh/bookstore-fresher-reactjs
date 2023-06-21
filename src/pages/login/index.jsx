@@ -1,4 +1,4 @@
-import {Button, Checkbox, Col, Form, Input, Row} from 'antd';
+import {Button, Checkbox, Col, Form, Input, Row, Typography} from 'antd';
 const onFinish = (values) => {
     console.log('Success:', values);
 };
@@ -7,17 +7,17 @@ const onFinishFailed = (errorInfo) => {
 };
 const Login = () => (
     <Row justify={"center"}>
-        <Col xs={24} xl={12} style={{margin: "0 auto"}}>
+        <Col xs={6}>
+            <Typography.Title>
+                Sign in
+            </Typography.Title>
             <Form
                 name="basic"
                 labelCol={{
-                    span: 8,
+                    span: 24,
                 }}
                 wrapperCol={{
-                    span: 16,
-                }}
-                style={{
-                    maxWidth: 600,
+                    span: 24,
                 }}
                 initialValues={{
                     remember: true,
@@ -56,8 +56,8 @@ const Login = () => (
                     name="remember"
                     valuePropName="checked"
                     wrapperCol={{
-                        offset: 8,
-                        span: 16,
+                        offset: 0,
+                        span: 24,
                     }}
                 >
                     <Checkbox>Remember me</Checkbox>
@@ -65,11 +65,11 @@ const Login = () => (
 
                 <Form.Item
                     wrapperCol={{
-                        offset: 8,
-                        span: 16,
+                        offset: 0,
+                        span: 24,
                     }}
                 >
-                    <Button type="primary" htmlType="submit">
+                    <Button type="primary" htmlType="submit" loading={false} style={{width: "100%"}}>
                         Login
                     </Button>
                 </Form.Item>
