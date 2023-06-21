@@ -1,80 +1,104 @@
-import {Button, Checkbox, Col, Form, Input, Row, Typography} from 'antd';
-const onFinish = (values) => {
-    console.log('Success:', values);
-};
-const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-};
-const Login = () => (
-    <Row justify={"center"}>
-        <Col xs={6}>
-            <Typography.Title>
-                Sign in
-            </Typography.Title>
-            <Form
-                name="basic"
-                labelCol={{
-                    span: 24,
-                }}
-                wrapperCol={{
-                    span: 24,
-                }}
-                initialValues={{
-                    remember: true,
-                }}
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                autoComplete="off"
-            >
-                <Form.Item
-                    label="Username"
-                    name="username"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your username!',
-                        },
-                    ]}
-                >
-                    <Input />
-                </Form.Item>
+import {Button, Checkbox, Col, Form, Input, message, Row, Typography} from 'antd';
+import {login} from "../../services/useServer.js";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+const Login = () => {
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
-                <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your password!',
-                        },
-                    ]}
-                >
-                    <Input.Password />
-                </Form.Item>
+    useEffect(() => {
+        let access_token = localStorage.getItem("access_token");
+        if (access_token) {
+            navigate("/");
+        }
+    }, []);
 
-                <Form.Item
-                    name="remember"
-                    valuePropName="checked"
-                    wrapperCol={{
-                        offset: 0,
+    const onFinish = async (values) => {
+        setLoading(true);
+        let res = await login(values.username, values.password);
+        setLoading(false);
+        if(res?.data){
+            localStorage.setItem("access_token", res.data.access_token);
+            message.success("Success");
+            navigate("/");
+        } else {
+            message.error("Error");
+        }
+    };
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    }
+    return (
+        <Row justify={"center"}>
+            <Col xs={6}>
+                <Typography.Title>
+                    Sign in
+                </Typography.Title>
+                <Form
+                    name="basic"
+                    labelCol={{
                         span: 24,
                     }}
-                >
-                    <Checkbox>Remember me</Checkbox>
-                </Form.Item>
-
-                <Form.Item
                     wrapperCol={{
-                        offset: 0,
                         span: 24,
                     }}
+                    initialValues={{
+                        remember: true,
+                    }}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
                 >
-                    <Button type="primary" htmlType="submit" loading={false} style={{width: "100%"}}>
-                        Login
-                    </Button>
-                </Form.Item>
-            </Form>
-        </Col>
-    </Row>
-);
+                    <Form.Item
+                        label="Email"
+                        name="username"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your email!',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Password"
+                        name="password"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your password!',
+                            },
+                        ]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="remember"
+                        valuePropName="checked"
+                        wrapperCol={{
+                            offset: 0,
+                            span: 24,
+                        }}
+                    >
+                        <Checkbox>Remember me</Checkbox>
+                    </Form.Item>
+
+                    <Form.Item
+                        wrapperCol={{
+                            offset: 0,
+                            span: 24,
+                        }}
+                    >
+                        <Button type="primary" htmlType="submit" loading={loading} style={{width: "100%"}}>
+                            Login
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </Col>
+        </Row>
+    )
+}
 export default Login;

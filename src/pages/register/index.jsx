@@ -1,7 +1,14 @@
 import {Button, Col, Form, Input, Row, Typography} from 'antd';
+import {register} from "../../services/useServer.js";
 
-const onFinish = (values) => {
+const onFinish = async (values) => {
     console.log('Success:', values);
+    let res = await register(values.fullName, values.email, values.password, values.phone);
+    console.log(res);
+    if(res){
+        alert("/");
+    }
+
 };
 const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -82,7 +89,7 @@ const Register = () => (
                         span: 24,
                     }}
                 >
-                    <Button type="primary" htmlType="submit" loading={true} style={{width: "100%", marginTop: "30px"}}>
+                    <Button type="primary" htmlType="submit" loading={false} style={{width: "100%", marginTop: "30px"}}>
                         Register
                     </Button>
                 </Form.Item>
