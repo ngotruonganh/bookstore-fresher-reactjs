@@ -6,6 +6,7 @@ import {
 import Login from "./pages/login/index.jsx";
 import Header from "./components/header/index.jsx";
 import Footer from "./components/footer/index.jsx";
+import Register from "./pages/register/index.jsx";
 
 const Layout = () => {
     return (
@@ -32,6 +33,10 @@ export default function App() {
                 {
                     path: "/login",
                     element: <Login />,
+                },
+                {
+                    path: "/register",
+                    element: <Register />,
                 },
             ],
         },

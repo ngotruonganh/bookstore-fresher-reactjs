@@ -1,13 +1,14 @@
 import {Button, Checkbox, Col, Form, Input, Row} from 'antd';
+
 const onFinish = (values) => {
     console.log('Success:', values);
 };
 const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
 };
-const Login = () => (
+const Register = () => (
     <Row justify={"center"}>
-        <Col xs={24} xl={12} style={{margin: "0 auto"}}>
+        <Col sm={22} xl={12}>
             <Form
                 name="basic"
                 labelCol={{
@@ -27,16 +28,29 @@ const Login = () => (
                 autoComplete="off"
             >
                 <Form.Item
-                    label="Username"
-                    name="username"
+                    label="Full name"
+                    name="fullName"
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your username!',
+                            message: 'Please input your full name!',
                         },
                     ]}
                 >
-                    <Input />
+                    <Input/>
+                </Form.Item>
+
+                <Form.Item
+                    label="Email"
+                    name="email"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your email!',
+                        },
+                    ]}
+                >
+                    <Input/>
                 </Form.Item>
 
                 <Form.Item
@@ -49,18 +63,20 @@ const Login = () => (
                         },
                     ]}
                 >
-                    <Input.Password />
+                    <Input.Password/>
                 </Form.Item>
 
                 <Form.Item
-                    name="remember"
-                    valuePropName="checked"
-                    wrapperCol={{
-                        offset: 8,
-                        span: 16,
-                    }}
+                    label="Phone"
+                    name="phone"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your phone!',
+                        },
+                    ]}
                 >
-                    <Checkbox>Remember me</Checkbox>
+                    <Input.Password/>
                 </Form.Item>
 
                 <Form.Item
@@ -70,11 +86,11 @@ const Login = () => (
                     }}
                 >
                     <Button type="primary" htmlType="submit">
-                        Login
+                        Register
                     </Button>
                 </Form.Item>
             </Form>
         </Col>
     </Row>
 );
-export default Login;
+export default Register;
