@@ -2,8 +2,11 @@ import {Button, Checkbox, Col, Form, Input, message, Row, Typography} from 'antd
 import {login} from "../../services/useServer.js";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {loginAction} from "../../redux/account/accountSlice.js";
 const Login = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -18,7 +21,9 @@ const Login = () => {
         let res = await login(values.username, values.password);
         setLoading(false);
         if(res?.data){
-            localStorage.setItem("access_token", res.data.access_token);
+            localStorage.setItem("access_token", res.data.data.access_token);
+            console.log("user", res)
+            dispatch(loginAction(res.data.data.user));
             message.success("Success");
             navigate("/");
         } else {
