@@ -10,8 +10,10 @@ import Register from "./pages/register/index.jsx";
 import axios from "./services/Axios.js";
 import {useEffect} from "react";
 import {callFetchAccount} from "./services/useServer.js";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getAccountAction} from "./redux/account/accountSlice.js";
+import Loading from "./components/loading/index.jsx";
+import Admin from "./pages/admin/index.jsx";
 
 const Layout = () => {
     return (
@@ -28,13 +30,17 @@ export default function App() {
     const getAccount = async () => {
         const res = await callFetchAccount();
         if(res && res.data){
-            dispatch(getAccountAction(res.data.data.user));zw
+            dispatch(getAccountAction(res.data.data.user));
         }
         console.log(res);
     }
+
+
     useEffect(() => {
             getAccount();
     }, []);
+
+    const isAuthenticated = useSelector(state => state.account.isAuthenticated);
 
     const router = createBrowserRouter([
         {
@@ -44,8 +50,8 @@ export default function App() {
             children: [
                 {index: true, element: <div>Home1</div>},
                 {
-                    path: "contacts",
-                    element: <div>contact</div>,
+                    path: "admin",
+                    element: <Admin />,
                 },
                 {
                     path: "/login",
@@ -61,6 +67,7 @@ export default function App() {
 
     return (
         <>
+            {/*{isAuthenticated ? <RouterProvider router={router} /> : <Loading />*/}
             <RouterProvider router={router} />
         </>
     );

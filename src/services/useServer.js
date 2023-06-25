@@ -12,4 +12,8 @@ const callFetchAccount  = () => {
     return axios.get("/api/v1/auth/account");
 }
 
-export {login, register, callFetchAccount};
+const getAllUser = (current, pageSize) => {
+    return axios.get(`/api/v1/user?current=${current}&pageSize=${pageSize}`);
+}
+
+export {login, register, callFetchAccount, getAllUser};
