@@ -3,19 +3,19 @@ import {
     RouterProvider,
     Outlet
 } from "react-router-dom";
-import Login from "./pages/login/index.jsx";
-import Header from "./components/header/index.jsx";
-import Footer from "./components/footer/index.jsx";
-import Register from "./pages/register/index.jsx";
-import axios from "./services/Axios.js";
 import {useEffect} from "react";
-import {callFetchAccount} from "./services/useServer.js";
+import {callFetchAccount} from "./services/useServer.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {getAccountAction} from "./redux/account/accountSlice.js";
-import Loading from "./components/loading/index.jsx";
-import Admin from "./pages/admin/index.jsx";
-import Home from "./pages/home/index.jsx";
-import BookDetail from "./pages/bookDetail/index.jsx";
+import {getAccountAction} from "./redux/account/accountSlice.jsx";
+
+import Login from "./pages/login";
+import Header from "./components/header";
+import Footer from "./components/footer";
+import Register from "./pages/register";
+import Admin from "./pages/admin";
+import Home from "./pages/home";
+import BookDetail from "./pages/bookDetail"
+import Loading from "./components/loading";
 
 const Layout = () => {
     return (
@@ -38,7 +38,7 @@ export default function App() {
 
 
     useEffect(() => {
-            getAccount();
+        getAccount();
     }, []);
 
     const isAuthenticated = useSelector(state => state.account.isAuthenticated);

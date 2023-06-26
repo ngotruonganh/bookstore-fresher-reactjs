@@ -1,4 +1,4 @@
-import axios from "./Axios";
+import axios from "./Axios.jsx";
 
 const login = (username, password) => {
     return axios.post('/api/v1/auth/login', {username, password});

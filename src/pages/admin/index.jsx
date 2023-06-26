@@ -1,6 +1,6 @@
 import {Button, Col, Input, Pagination, Row, Space, Table, Typography} from 'antd';
 import {useEffect, useState} from "react";
-import {getAllUser} from "../../services/useServer.js";
+import {getAllUser} from "../../services/useServer.jsx";
 import MenuAdmin from "../../components/menu/index.jsx";
 import Loading from "../../components/loading/index.jsx";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";

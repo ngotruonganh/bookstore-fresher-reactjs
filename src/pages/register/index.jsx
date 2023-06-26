@@ -1,5 +1,5 @@
 import {Button, Col, Form, Input, Row, Typography} from 'antd';
-import {register} from "../../services/useServer.js";
+import {register} from "../../services/useServer.jsx";
 
 const onFinish = async (values) => {
     console.log('Success:', values);
