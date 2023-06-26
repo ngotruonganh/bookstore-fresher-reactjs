@@ -14,6 +14,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getAccountAction} from "./redux/account/accountSlice.js";
 import Loading from "./components/loading/index.jsx";
 import Admin from "./pages/admin/index.jsx";
+import Home from "./pages/home/index.jsx";
 
 const Layout = () => {
     return (
@@ -32,7 +33,6 @@ export default function App() {
         if(res && res.data){
             dispatch(getAccountAction(res.data.data.user));
         }
-        console.log(res);
     }
 
 
@@ -48,7 +48,7 @@ export default function App() {
             element: <Layout />,
             errorElement: <div>404</div>,
             children: [
-                {index: true, element: <div>Home1</div>},
+                {index: true, element: <Home />},
                 {
                     path: "admin",
                     element: <Admin />,
