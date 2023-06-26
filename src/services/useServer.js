@@ -12,8 +12,16 @@ const callFetchAccount  = () => {
     return axios.get("/api/v1/auth/account");
 }
 
-const getAllUser = (current, pageSize) => {
-    return axios.get(`/api/v1/user?current=${current}&pageSize=${pageSize}`);
+const getAllUser = (query) => {
+    return axios.get(query);
 }
 
-export {login, register, callFetchAccount, getAllUser};
+const getAllBooks = (query) => {
+    return axios.get(query);
+}
+
+const getCategories = () => {
+    return axios.get("/api/v1/database/category");
+}
+
+export {login, register, callFetchAccount, getAllUser, getAllBooks, getCategories};
