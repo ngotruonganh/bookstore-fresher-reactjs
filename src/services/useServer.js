@@ -1,15 +1,15 @@
 import axios from "./Axios";
 
 const login = (username, password) => {
-    return axios.post("/api/v1/auth/login", {username, password});
+    return axios.post('/api/v1/auth/login', {username, password});
 }
 
 const register  = (fullName, email, password, phone) => {
-    return axios.post("/api/v1/user/register", {fullName, email, password, phone});
+    return axios.post('/api/v1/user/register', {fullName, email, password, phone});
 }
 
 const callFetchAccount  = () => {
-    return axios.get("/api/v1/auth/account");
+    return axios.get('/api/v1/auth/account');
 }
 
 const getAllUser = (query) => {
@@ -21,7 +21,11 @@ const getAllBooks = (query) => {
 }
 
 const getCategories = () => {
-    return axios.get("/api/v1/database/category");
+    return axios.get('/api/v1/database/category');
 }
 
-export {login, register, callFetchAccount, getAllUser, getAllBooks, getCategories};
+const getBookById = (id) => {
+    return axios.get(`/api/v1/book/${id}`);
+}
+
+export {login, register, callFetchAccount, getAllUser, getAllBooks, getCategories, getBookById};
