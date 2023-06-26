@@ -15,6 +15,7 @@ import {getAccountAction} from "./redux/account/accountSlice.js";
 import Loading from "./components/loading/index.jsx";
 import Admin from "./pages/admin/index.jsx";
 import Home from "./pages/home/index.jsx";
+import BookDetail from "./pages/bookDetail/index.jsx";
 
 const Layout = () => {
     return (
@@ -54,13 +55,17 @@ export default function App() {
                     element: <Admin />,
                 },
                 {
-                    path: "/login",
+                    path: "login",
                     element: <Login />,
                 },
                 {
-                    path: "/register",
+                    path: "register",
                     element: <Register />,
                 },
+                {
+                    path: "book/:id",
+                    element: <BookDetail />
+                }
             ],
         },
     ]);
