@@ -1,6 +1,6 @@
-import {Button, Col, Image, Row, Typography} from "antd";
+import {Button, Col, Image, InputNumber, message, Row, Typography} from "antd";
 import {useEffect, useState} from "react";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import {getBookById} from "../../services/useServer.jsx";
 import {addToCart} from "../../redux/order/orderSlice.jsx";
 import {useDispatch} from "react-redux";
@@ -31,45 +31,50 @@ const BookDetail = () => {
             setQuantity(quantity - 1);
         }
         if(type === 'up'){
-            if(quantity === +bookDetail.quantity) return;
             setQuantity(quantity + 1);
         }
     }
 
-    const handleChangeQuantity = (e) => {
-        setQuantity(e.target.value)
-    }
-
     const handleAddToCart = (quantity, item) => {
         dispatch(addToCart({_id: item._id, quantity, detail: item}));
+        message.success("Item has been added to your shopping cart");
+    }
+
+    const onChange = (value) => {
+        if(value < 1) {
+            return;
+        }
+        setQuantity(value);
     }
     return (
         <>
             {bookDetail && bookDetail.length > 0 && bookDetail.map((item) => {
                 return (
-                    <Row justify="center" key={item._id}>
+                    <Row justify="center" key={item._id} style={{backgroundColor: "white", padding: "20px 30px"}}>
                         <Col xs={24} md={8}>
                             <Image src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" width={400}/>
                         </Col>
-                        <Col xs={24} md={10}>
+                        <Col xs={24} md={16}>
                             <Typography.Title>
                                 {item.mainText}
                             </Typography.Title>
                             <Typography.Paragraph>
-                                {item.sold}
+                                {item.sold} Sold
                             </Typography.Paragraph>
-                            <Typography.Paragraph style={{fontWeight: "bold", color: "red"}}>
-                                d{item.price}
-                            </Typography.Paragraph>
-                            <div>
+                            <Typography.Title level={3} style={{fontWeight: "bold", color: "red", backgroundColor: "#F5F5F5", padding: '20px' }}>
+                                ₫{item.price}
+                            </Typography.Title>
+                            <div style={{marginTop: "20px"}}>
                                 Quantity
-                                <Button onClick={() => handleQuantity('down')}>-</Button>
-                                <input value={quantity} onChange={(e) => handleChangeQuantity(e)} />
-                                <Button onClick={() => handleQuantity('up')}>+</Button>
+                                <Button onClick={() => handleQuantity('down')} disabled={quantity < 2}>-</Button>
+                                <InputNumber min={1} max={item.quantity} value={quantity} onChange={onChange} />
+                                <Button onClick={() => handleQuantity('up')} disabled={quantity === item.quantity}>+</Button>
                                 {item.quantity} are available
                             </div>
-                            <Button type='dashed' onClick={() => handleAddToCart(quantity, item)}>Add To Cart</Button>
-                            <Button type='primary'>Buy Now</Button>
+                            <div style={{marginTop: "25px"}}>
+                                <Button style={{marginRight: "15px"}} danger onClick={() => handleAddToCart(quantity, item)}>Add To Cart</Button>
+                                <Button type='primary' danger>Buy Now</Button>
+                            </div>
                         </Col>
                     </Row>
                 )

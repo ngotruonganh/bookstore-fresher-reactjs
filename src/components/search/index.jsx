@@ -1,11 +1,12 @@
 import React from 'react';
+import {Input} from "antd";
 
-const Search = () => {
+const { Search } = Input;
+
+const SearchField = () => {
     return (
-        <div>
-            <input placeholder="search"/>
-        </div>
+            <Search placeholder="search" style={{width: "100%", padding: "10px"}}/>
     );
 };
 
-export default Search;
+export default SearchField;

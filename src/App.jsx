@@ -17,13 +17,26 @@ import Home from "./pages/home";
 import BookDetail from "./pages/bookDetail"
 import Loading from "./components/loading";
 import Order from "./pages/order/index.jsx";
+import {Col, Row} from "antd";
 
 const Layout = () => {
     return (
         <>
-            <Header />
-            <Outlet />
-            <Footer />
+            <Row justify="center" style={{backgroundColor: "#f53d2d"}}>
+                <Col xs={23} xl={18}>
+                    <Header />
+                </Col>
+            </Row>
+            <Row justify="center" style={{marginTop: "30px"}}>
+                <Col xs={23} xl={18}>
+                    <Outlet />
+                </Col>
+            </Row>
+            <Row justify="center" style={{backgroundColor: "#f53d2d"}}>
+                <Col xs={23} xl={18}>
+                    <Footer />
+                </Col>
+            </Row>
         </>
     )
 }

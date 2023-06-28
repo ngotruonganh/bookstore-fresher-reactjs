@@ -1,11 +1,24 @@
-import {Button, Checkbox, Col, Dropdown, Row, Space, Typography} from "antd";
+import {
+    Button,
+    Checkbox,
+    Col,
+    Divider,
+    Dropdown,
+    Input,
+    InputNumber,
+    Pagination,
+    Row,
+    Select,
+    Space,
+    Typography
+} from "antd";
 import {useEffect, useState} from "react";
 import {getAllBooks, getCategories} from "../../services/useServer.jsx";
 import ProductItem from "../../components/productItem/index.jsx";
 import PaginationComponent from "../../components/pagination/index.jsx";
-import {DownOutlined} from "@ant-design/icons";
+import {DownOutlined, UnorderedListOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
-
+import "../../styles/global.scss";
 const Home = () => {
     const [listBook, setListBook] = useState([]);
     const [listCategories, setListCategories] = useState([]);
@@ -60,7 +73,7 @@ const Home = () => {
     }, [current, sort, filerCategories]);
 
     const getBooks = async () => {
-        const query = `/api/v1/book?current=${current}&pageSize=5&${sort}&category=${filerCategories}`;
+        const query = `/api/v1/book?current=${current}&pageSize=6&${sort}&category=${filerCategories}`;
         const res = await getAllBooks(query);
         if (res && res.data) {
             setListBook(res.data.data.result);
@@ -127,70 +140,97 @@ const Home = () => {
         const slug = convertSlug(book.mainText);
         navigate(`/${slug}?id=${book._id}`);
     }
+    const handleChange = (value) => {
+        console.log(`selected ${value}`);
+    };
     return (
         <>
-            <Row gutter={[16, 16]}>
-                <Col span={6}>
-                    <Typography.Paragraph>
-                        All Categories
+            <Row gutter={[32, 32]}>
+                <Col xs={0} xl={4} style={{backgroundColor: 'white', padding: '25px 20px', borderRadius: "3px"}}>
+                    <Typography.Paragraph strong={true} style={{display: "flex", alignItems: "center"}}>
+                        <UnorderedListOutlined /> &nbsp; All Categories
                     </Typography.Paragraph>
-                    <Row>
-                        <Checkbox.Group
-                            style={{
-                                width: '100%',
-                            }}
-                            onChange={onChangeCheckbox}
-                        >
-                            {listCategories.map((item) => {
-                                return (
-                                    <Col span={8}>
-                                        <Checkbox value={item.value}>{item.label}</Checkbox>
-                                    </Col>
-                                )
-                            })}
+                    <Divider />
+                    <Checkbox.Group
+                        onChange={onChangeCheckbox}
+                    >
+                        {listCategories.map((item) => {
+                            return (
+                                <Col span={24} style={{margin: "5px 0"}}>
+                                    <Checkbox value={item.value}>{item.label}</Checkbox>
+                                </Col>
+                            )
+                        })}
 
-                        </Checkbox.Group>
-                        <Button onClick={handleClear}>Clear All</Button>
-                    </Row>
-                </Col>
-                <Col span={18}>
-                    <Row gutter={[8, 8]}>
-                        <Col span={24}>
-                            Sort by
-                            {sort === "sort=-sold" ?
-                                <Button type="primary" onClick={ChangeSort}>Popular</Button> :
-                                <Button onClick={ChangeSort}>Popular</Button>
-
-                            }
-                            {sort === "sort=sold" ?
-                                <Button type="primary" onClick={ChangeSortLatest}>Latest</Button> :
-                                <Button onClick={ChangeSortLatest}>Latest</Button>
-                            }
-                            <Dropdown
-                                menu={{
-                                    items,
-                                    onClick: menu
-                                }}
-                            >
-                                <Space>
-                                    <Typography.Paragraph style={sort === "sort=price" || sort === "sort=-price" ? {color: "red"} : {}}>
-                                        Price
-                                    <DownOutlined/>
-                                    </Typography.Paragraph>
-                                </Space>
-                            </Dropdown>
-                            <Col span={24} style={{textAlign: "end"}}>
-                                <PaginationComponent current={current} pageSize={5} total={total}
-                                                     onChange={onChange}/>
-                            </Col>
+                    </Checkbox.Group>
+                    <Divider />
+                    <Typography.Paragraph strong={true}>
+                        Price Range
+                    </Typography.Paragraph>
+                    <Row justify="space-between">
+                        <Col span={10}>
+                            <InputNumber placeholder="₫ MIN" min={0} onChange={onChange} />
                         </Col>
+                        <Col>
+                            _
+                        </Col>
+                        <Col span={10}>
+                            <InputNumber placeholder="₫ MAX" min={0} onChange={onChange} />
+                        </Col>
+                    </Row>
+                    <Button type='primary' danger style={{marginTop:'20px', width: "100%"}} onClick={handleClear}>APPLY</Button>
+                    <Divider />
+                    <Button type='primary' danger style={{width: "100%"}} onClick={handleClear}>CLEAR ALL</Button>
+                </Col>
+                <Col xs={24} xl={20}>
+                    <Row gutter={[8, 8]} justify="space-between" style={{backgroundColor: 'white', padding: '20px',  borderRadius: "3px"}}>
+                        <Col>
+                            <Row gutter={[8,8]} style={{display: 'flex', alignItems: 'center'}}>
+                                <Col>Sort by</Col>
+                                <Col>
+                                    {sort === "sort=-sold" ?
+                                        <Button type="primary" danger onClick={ChangeSort}>Popular</Button> :
+                                        <Button danger onClick={ChangeSort}>Popular</Button>
+                                    }
+                                </Col>
+                                <Col>
+                                    {sort === "sort=sold" ?
+                                        <Button type="primary" danger onClick={ChangeSortLatest}>Latest</Button> :
+                                        <Button danger onClick={ChangeSortLatest}>Latest</Button>
+                                    }
+                                </Col>
+                                <Col>
+                                    <Dropdown
+                                        menu={{
+                                            items,
+                                            onClick: menu
+                                        }}
+                                    >
+                                        <Space>
+                                            <Typography.Paragraph style={sort === "sort=price" || sort === "sort=-price" ? {color: "red"} : {}}>
+                                                Price
+                                                <DownOutlined/>
+                                            </Typography.Paragraph>
+                                        </Space>
+                                    </Dropdown>
+                                </Col>
+                            </Row>
+                        </Col>
+                        <Col>
+                            <Pagination simple current={current} pageSize={6} total={total} onChange={onChange}/>
+                        </Col>
+                    </Row>
+                    <Row gutter={[8, 8]} style={{backgroundColor: 'white', padding: '15px', marginTop: "20px",  borderRadius: "3px"}}>
                         {listBook.map((item) => {
                             return (
-                                <Col key={item._id} onClick={() => handleViewDetail(item)}>
+                                <Col key={item._id} onClick={() => handleViewDetail(item)} xs={12} md={8} xl={4}>
                                     <ProductItem product={item}/>
                                 </Col>
                             )
                         })}
+                    </Row>
+                    <Row justify="center" style={{marginTop: "20px"}}>
+                        <PaginationComponent current={current} pageSize={6} total={total} onChange={onChange}/>
                     </Row>
                 </Col>
             </Row>

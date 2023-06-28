@@ -1,7 +1,7 @@
 const Footer = () => {
     return (
-        <div>
-            Footer
+        <div style={{margin: "10px 0", textAlign: "center", color: "white"}}>
+            Design By Anh Ngo
         </div>
     );
 };
