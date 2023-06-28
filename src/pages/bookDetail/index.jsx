@@ -1,22 +1,22 @@
 import {Button, Col, Image, Row, Typography} from "antd";
 import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import {getBookById} from "../../services/useServer.jsx";
 
 const BookDetail = () => {
     const [bookDetail, setBookDetail] = useState([]);
-    const params = useParams();
+    const location = useLocation();
+    let params = new URLSearchParams(location.search);
+    const id = params?.get('id');
 
     useEffect(() => {
         getBookDetail();
     }, [])
 
     const getBookDetail = async () => {
-        const res = await getBookById(params.id);
-        console.log("res: ", res);
+        const res = await getBookById(id);
         if (res && res.data) {
-            setBookDetail(res.data.data);
-            console.log("book: ", bookDetail);
+            setBookDetail([res.data.data]);
         }
     }
     return (
@@ -35,14 +35,16 @@ const BookDetail = () => {
                                 {item.sold}
                             </Typography.Paragraph>
                             <Typography.Paragraph style={{fontWeight: "bold", color: "red"}}>
-                                {item.price}
-                            ss</Typography.Paragraph>
+                                d{item.price}
+                            </Typography.Paragraph>
                             <Typography.Paragraph style={{display: "flex"}}>
-                                Quantity
+                                {item.quantity}
+                            </Typography.Paragraph>
+                            <div>
                                 <Button>-</Button>
                                 1
                                 <Button>+</Button>
-                            </Typography.Paragraph>
+                            </div>
                             <Button type='dashed'>Add To Cart</Button>
                             <Button type='primary'>Buy Now</Button>
                         </Col>
