@@ -16,6 +16,7 @@ import Admin from "./pages/admin";
 import Home from "./pages/home";
 import BookDetail from "./pages/bookDetail"
 import Loading from "./components/loading";
+import Order from "./pages/order/index.jsx";
 
 const Layout = () => {
     return (
@@ -63,8 +64,12 @@ export default function App() {
                     element: <Register />,
                 },
                 {
-                    path: "book/:id",
+                    path: ":id",
                     element: <BookDetail />
+                },
+                {
+                    path: "order",
+                    element: <Order />
                 }
             ],
         },

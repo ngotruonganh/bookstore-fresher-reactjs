@@ -2,12 +2,18 @@ import {Button, Col, Image, Row, Typography} from "antd";
 import {useEffect, useState} from "react";
 import {useLocation, useParams} from "react-router-dom";
 import {getBookById} from "../../services/useServer.jsx";
+import {addToCart} from "../../redux/order/orderSlice.jsx";
+import {useDispatch} from "react-redux";
 
 const BookDetail = () => {
-    const [bookDetail, setBookDetail] = useState([]);
     const location = useLocation();
     let params = new URLSearchParams(location.search);
     const id = params?.get('id');
+
+    const [bookDetail, setBookDetail] = useState([]);
+    const [quantity, setQuantity] = useState(1);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         getBookDetail();
@@ -18,6 +24,24 @@ const BookDetail = () => {
         if (res && res.data) {
             setBookDetail([res.data.data]);
         }
+    }
+
+    const handleQuantity = (type) => {
+        if(type === 'down'){
+            setQuantity(quantity - 1);
+        }
+        if(type === 'up'){
+            if(quantity === +bookDetail.quantity) return;
+            setQuantity(quantity + 1);
+        }
+    }
+
+    const handleChangeQuantity = (e) => {
+        setQuantity(e.target.value)
+    }
+
+    const handleAddToCart = (quantity, item) => {
+        dispatch(addToCart({_id: item._id, quantity, detail: item}));
     }
     return (
         <>
@@ -37,15 +61,14 @@ const BookDetail = () => {
                             <Typography.Paragraph style={{fontWeight: "bold", color: "red"}}>
                                 d{item.price}
                             </Typography.Paragraph>
-                            <Typography.Paragraph style={{display: "flex"}}>
-                                {item.quantity}
-                            </Typography.Paragraph>
                             <div>
-                                <Button>-</Button>
-                                1
-                                <Button>+</Button>
+                                Quantity
+                                <Button onClick={() => handleQuantity('down')}>-</Button>
+                                <input value={quantity} onChange={(e) => handleChangeQuantity(e)} />
+                                <Button onClick={() => handleQuantity('up')}>+</Button>
+                                {item.quantity} are available
                             </div>
-                            <Button type='dashed'>Add To Cart</Button>
+                            <Button type='dashed' onClick={() => handleAddToCart(quantity, item)}>Add To Cart</Button>
                             <Button type='primary'>Buy Now</Button>
                         </Col>
                     </Row>

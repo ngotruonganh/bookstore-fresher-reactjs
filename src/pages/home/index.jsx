@@ -125,7 +125,7 @@ const Home = () => {
 
     const handleViewDetail = (book) => {
         const slug = convertSlug(book.mainText);
-        navigate(`/book/${slug}?id=${book._id}`);
+        navigate(`/${slug}?id=${book._id}`);
     }
     return (
         <>
