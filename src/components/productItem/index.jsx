@@ -4,7 +4,7 @@ const ProductItem = ({product}) => {
     return (
         <Card
             hoverable
-            cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"/>}
+            cover={<img alt="example" src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${product?.thumbnail}`}/>}
         >
             <Meta title={product.mainText}/>
             <Typography.Paragraph style={{color: "red"}}>₫{product.price}</Typography.Paragraph>

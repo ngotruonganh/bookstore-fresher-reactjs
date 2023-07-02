@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import {message} from "antd";
 
 const initialState = {
     cart: [],
@@ -12,11 +13,19 @@ export const orderSlice = createSlice({
             const cart = state.cart;
             const item = action.payload;
             const isExistIndex = cart.findIndex(c => c._id === item._id);
-            if(isExistIndex >  -1){
-                cart[isExistIndex].quantity = cart[isExistIndex].quantity + item.quantity;
+            if(isExistIndex > -1){
+                if(cart[isExistIndex].quantity === cart[isExistIndex].detail.quantity){
+                    cart[isExistIndex].quantity = cart[isExistIndex].detail.quantity;
+                    message.error("Limit");
+                }
+                else {
+                    cart[isExistIndex].quantity = cart[isExistIndex].quantity + item.quantity;
+                    message.success("Item has been added to your shopping cart");
+                }
             }
             else {
                 cart.push({_id: item._id, quantity: item.quantity, detail: item.detail});
+                message.success("Item has been added to your shopping cart");
             }
             state.cart = cart;
         },

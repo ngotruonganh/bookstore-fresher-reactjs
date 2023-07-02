@@ -37,7 +37,6 @@ const BookDetail = () => {
 
     const handleAddToCart = (quantity, item) => {
         dispatch(addToCart({_id: item._id, quantity, detail: item}));
-        message.success("Item has been added to your shopping cart");
     }
 
     const onChange = (value) => {
@@ -52,7 +51,7 @@ const BookDetail = () => {
                 return (
                     <Row justify="center" key={item._id} style={{backgroundColor: "white", padding: "20px 30px"}}>
                         <Col xs={24} md={8}>
-                            <Image src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" width={400}/>
+                            <Image src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${item?.thumbnail}`} width={400} />
                         </Col>
                         <Col xs={24} md={16}>
                             <Typography.Title>
