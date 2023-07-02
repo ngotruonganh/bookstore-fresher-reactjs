@@ -97,6 +97,7 @@ const Home = () => {
     const onChangeCheckbox = (checkedValues) => {
         const convert = checkedValues.join();
         setFilterCategories(convert);
+        setCurrent(1);
     };
 
     const handleClear = () => {
