@@ -1,6 +1,6 @@
 import {Button, Col, Image, InputNumber, message, Row, Typography} from "antd";
 import {useEffect, useState} from "react";
-import {useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {getBookById} from "../../services/useServer.jsx";
 import {addToCart} from "../../redux/order/orderSlice.jsx";
 import {useDispatch} from "react-redux";
@@ -10,11 +10,13 @@ const BookDetail = () => {
     const location = useLocation();
     let params = new URLSearchParams(location.search);
     const id = params?.get('id');
+    const token = localStorage.getItem('access_token');
 
     const [bookDetail, setBookDetail] = useState([]);
     const [quantity, setQuantity] = useState(1);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         getBookDetail();
@@ -39,7 +41,11 @@ const BookDetail = () => {
     const handleAddToCart = (quantity, item) => {
         if(quantity > item.quantity ) {
             message.error("sold out");
-            return
+            return;
+        }
+        if(!token){
+            navigate('/auth/login');
+            return;
         }
         dispatch(addToCart({_id: item._id, quantity, detail: item}));
     }

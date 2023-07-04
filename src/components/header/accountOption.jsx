@@ -21,7 +21,7 @@ const AccountOption = () => {
                         {token ? (
                             <Link to='/order-history' style={{color: "black"}}>My Purchase</Link>
                             ) : (
-                            <Link to='/order-history' style={{color: "black"}}>My Purchase</Link>
+                            <Link to='/auth/login' style={{color: "black"}}>My Purchase</Link>
                             )
                         }
                     </Col>
