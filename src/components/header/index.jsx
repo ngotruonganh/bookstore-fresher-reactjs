@@ -23,7 +23,10 @@ const Header = () => {
                     <SearchField />
                 </Col>
                 <Col span={3} style={{display: "flex", justifyContent: "center"}}>
-                    <Badge count={count}>
+                    <Badge
+                        count={count}
+                        showZero
+                    >
                         <Link to='/order'>
                             <ShoppingCartOutlined style={{fontSize: '30px', color: "white"}}/>
                         </Link>

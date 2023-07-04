@@ -28,4 +28,12 @@ const getBookById = (id) => {
     return axios.get(`/api/v1/book/${id}`);
 }
 
-export {login, register, callFetchAccount, getAllUser, getAllBooks, getCategories, getBookById};
+const checkout = (item) => {
+    return axios.post('/api/v1/order', {...item});
+}
+
+const getHistoryOrder = () => {
+    return axios.get('/api/v1/order');
+}
+
+export {login, register, callFetchAccount, getAllUser, getAllBooks, getCategories, getBookById, checkout, getHistoryOrder};

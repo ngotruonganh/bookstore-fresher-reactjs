@@ -18,6 +18,8 @@ import BookDetail from "./pages/bookDetail"
 import Loading from "./components/loading";
 import Order from "./pages/order/index.jsx";
 import {Col, Row} from "antd";
+import Checkout from "./pages/checkout/index.jsx";
+import OrderHistory from "./pages/orderHistory/index.jsx";
 
 const Layout = () => {
     return (
@@ -83,6 +85,14 @@ export default function App() {
                 {
                     path: "order",
                     element: <Order />
+                },
+                {
+                    path: 'checkout',
+                    element: <Checkout />
+                },
+                {
+                    path: 'order-history',
+                    element: <OrderHistory />
                 }
             ],
         },

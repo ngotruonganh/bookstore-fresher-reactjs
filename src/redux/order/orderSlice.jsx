@@ -14,9 +14,10 @@ export const orderSlice = createSlice({
             const item = action.payload;
             const isExistIndex = cart.findIndex(c => c._id === item._id);
             if(isExistIndex > -1){
-                if(cart[isExistIndex].quantity === cart[isExistIndex].detail.quantity){
+                if(cart[isExistIndex].quantity >= cart[isExistIndex].detail.quantity){
                     cart[isExistIndex].quantity = cart[isExistIndex].detail.quantity;
-                    message.error("Limit");
+                    message.error(`You already have ${cart[isExistIndex].quantity} quantity in cart. 
+                    Unable to add selected quantity to cart as it would exceed your purchase limit.`);
                 }
                 else {
                     cart[isExistIndex].quantity = cart[isExistIndex].quantity + item.quantity;
@@ -40,12 +41,20 @@ export const orderSlice = createSlice({
                 cart[isExistIndex].quantity = item.quantity;
             }
             state.cart = cart;
-        }
+        },
+        emptyCart: (state, action) => {
+            state.cart = [];
+        },
     },
     extraReducers: (builder) => {
     }
 });
 
-export const {addToCart, deleteItem,updateQuantity } = orderSlice.actions;
+export const {
+    addToCart,
+    deleteItem,
+    updateQuantity,
+    emptyCart,
+} = orderSlice.actions;
 
 export default orderSlice.reducer;

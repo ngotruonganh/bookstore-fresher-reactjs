@@ -1,4 +1,5 @@
 import {Dropdown, Space} from "antd";
+import {Link} from "react-router-dom";
 
 const AccountOption = () => {
     const items = [
@@ -13,9 +14,9 @@ const AccountOption = () => {
         {
             key: '2',
             label: (
-                <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+                <Link to='/order-history'>
                     My Purchase
-                </a>
+                </Link>
             ),
         },
         {
