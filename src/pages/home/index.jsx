@@ -4,7 +4,6 @@ import {
     Col,
     Divider,
     Dropdown,
-    InputNumber,
     Pagination,
     Row,
     Space,
@@ -22,6 +21,7 @@ import {convertSlug} from "../../function/index.jsx";
 const Home = () => {
     const navigate = useNavigate();
     const [listBook, setListBook] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     // categories
     const [listCategories, setListCategories] = useState([]);
@@ -34,8 +34,10 @@ const Home = () => {
     const [sort, setSort] = useState('sort=-sold');
 
     useEffect(() => {
+        setLoading(true);
         getBooks();
         getAllCategories();
+        setLoading(false);
     }, [current, sort, filerCategories]);
 
     const getBooks = async () => {
@@ -115,6 +117,9 @@ const Home = () => {
     // };
     return (
         <>
+            {loading ? (
+                <SkeletonComponent />
+            ) : (
             <Row gutter={[32, 32]}>
                 <Col xs={0} xl={4} style={{backgroundColor: 'white', borderRadius: "3px", paddingTop: "10px"}}>
                     <Typography.Paragraph strong={true} style={{display: "flex", alignItems: "center"}}>
@@ -207,6 +212,7 @@ const Home = () => {
                     </Row>
                 </Col>
             </Row>
+            )}
         </>
     );
 };

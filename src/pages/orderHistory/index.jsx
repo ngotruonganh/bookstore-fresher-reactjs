@@ -1,15 +1,19 @@
 import {getHistoryOrder} from "../../services/useServer.jsx";
 import {useEffect, useState} from "react";
-import {Col, Pagination, Row} from "antd";
+import {Col, Pagination, Row, Skeleton} from "antd";
 import {convertVND} from "../../function/index.jsx";
+import loading from "../../components/loading/index.jsx";
 
 const OrderHistory = () => {
     const [order, setOrder] = useState([]);
     const [current, setCurrent] = useState(1);
     const [total, setTotal] = useState(0);
     const [pageSize, setPageSize] = useState(10);
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
+        setLoading(true);
         getOrder();
+        setLoading(false);
     }, [current]);
 
     const getOrder = async () => {
@@ -26,6 +30,7 @@ const OrderHistory = () => {
 
     return (
         <>
+            <Skeleton loading={loading}/>
             <Row align='middle' style={{marginTop: "10px", padding: '10px', backgroundColor: "white"}}>
                 <Col xs={8} xl={4}>
                     Name

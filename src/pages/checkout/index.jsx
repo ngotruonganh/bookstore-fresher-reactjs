@@ -1,4 +1,4 @@
-import {Button, Col, Divider, Form, Input, message, Row, Typography} from "antd";
+import {Button, Col, Divider, Form, Input, message, Row, Skeleton, Typography} from "antd";
 import {convertVND} from "../../function/index.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {checkout} from "../../services/useServer.jsx";
@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import {emptyCart} from "../../redux/order/orderSlice.jsx";
 import {useNavigate} from "react-router-dom";
 import TextArea from "antd/es/input/TextArea.js";
+import loading from "../../components/loading/index.jsx";
 
 const Checkout = () => {
     const orderList = useSelector(state => state.order.cart);

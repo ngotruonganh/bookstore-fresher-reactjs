@@ -1,6 +1,6 @@
-import {Button, Col, Image, InputNumber, message, Row, Typography} from "antd";
+import {Button, Col, Image, InputNumber, message, Row, Skeleton, Typography} from "antd";
 import {useEffect, useState} from "react";
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {getBookById} from "../../services/useServer.jsx";
 import {addToCart} from "../../redux/order/orderSlice.jsx";
 import {useDispatch} from "react-redux";
@@ -17,9 +17,12 @@ const BookDetail = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        setLoading(true);
         getBookDetail();
+        setLoading(false);
     }, [])
 
     const getBookDetail = async () => {
@@ -58,6 +61,7 @@ const BookDetail = () => {
     }
     return (
         <>
+            <Skeleton loading={loading}/>
             {bookDetail && bookDetail.length > 0 && bookDetail.map((item) => {
                 return (
                     <Row justify="center" key={item._id} style={{backgroundColor: "white", padding: "20px 30px"}}>
