@@ -7,12 +7,12 @@ const TopHeader = () => {
     return (
         <Row justify="space-between" style={{marginTop: '5px'}}>
             <Col style={{color: "white"}}>
-                Follow us on
+                Follow us on ...
             </Col>
             <Col>
                 <Row align="middle" gutter={[8, 8]}>
                     <Col>
-                        <Language />
+                        {/*<Language />*/}
                     </Col>
                     <Col>
                         <AccountOption />

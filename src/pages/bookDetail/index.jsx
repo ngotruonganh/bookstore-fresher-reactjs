@@ -4,6 +4,7 @@ import {useLocation} from "react-router-dom";
 import {getBookById} from "../../services/useServer.jsx";
 import {addToCart} from "../../redux/order/orderSlice.jsx";
 import {useDispatch} from "react-redux";
+import {convertVND} from "../../function/index.jsx";
 
 const BookDetail = () => {
     const location = useLocation();
@@ -36,6 +37,10 @@ const BookDetail = () => {
     }
 
     const handleAddToCart = (quantity, item) => {
+        if(quantity > item.quantity ) {
+            message.error("sold out");
+            return
+        }
         dispatch(addToCart({_id: item._id, quantity, detail: item}));
     }
 
@@ -61,7 +66,7 @@ const BookDetail = () => {
                                 {item.sold} Sold
                             </Typography.Paragraph>
                             <Typography.Title level={3} style={{fontWeight: "bold", color: "red", backgroundColor: "#F5F5F5", padding: '20px' }}>
-                                ₫{item.price}
+                                {convertVND(item.price)}
                             </Typography.Title>
                             <div style={{marginTop: "20px"}}>
                                 Quantity
@@ -71,8 +76,10 @@ const BookDetail = () => {
                                 {item.quantity} are available
                             </div>
                             <div style={{marginTop: "25px"}}>
-                                <Button style={{marginRight: "15px"}} danger onClick={() => handleAddToCart(quantity, item)}>Add To Cart</Button>
-                                <Button type='primary' danger>Buy Now</Button>
+                                <Button style={{marginRight: "15px"}} danger onClick={() => handleAddToCart(quantity, item)}>
+                                    Add To Cart
+                                </Button>
+                                {/*<Button type='primary' danger>Buy Now</Button>*/}
                             </div>
                         </Col>
                     </Row>

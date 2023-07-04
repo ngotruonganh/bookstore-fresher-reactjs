@@ -4,6 +4,10 @@ const login = (username, password) => {
     return axios.post('/api/v1/auth/login', {username, password});
 }
 
+const logout = () => {
+    return axios.post('/api/v1/auth/logout');
+}
+
 const register  = (fullName, email, password, phone) => {
     return axios.post('/api/v1/user/register', {fullName, email, password, phone});
 }
@@ -32,8 +36,19 @@ const checkout = (item) => {
     return axios.post('/api/v1/order', {...item});
 }
 
-const getHistoryOrder = () => {
-    return axios.get('/api/v1/order');
+const getHistoryOrder = (query) => {
+    return axios.get(query);
 }
 
-export {login, register, callFetchAccount, getAllUser, getAllBooks, getCategories, getBookById, checkout, getHistoryOrder};
+export {
+    login,
+    register,
+    callFetchAccount,
+    getAllUser,
+    getAllBooks,
+    getCategories,
+    getBookById,
+    checkout,
+    getHistoryOrder,
+    logout
+};

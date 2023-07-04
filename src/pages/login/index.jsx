@@ -1,7 +1,7 @@
 import {Button, Checkbox, Col, Form, Input, message, Row, Typography} from 'antd';
 import {login} from "../../services/useServer.jsx";
 import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {loginAction} from "../../redux/account/accountSlice.jsx";
 const Login = () => {
@@ -18,11 +18,10 @@ const Login = () => {
 
     const onFinish = async (values) => {
         setLoading(true);
-        let res = await login(values.username, values.password);
+        let res = await login(values.email, values.password);
         setLoading(false);
         if(res?.data){
             localStorage.setItem("access_token", res.data.data.access_token);
-            console.log("user", res)
             dispatch(loginAction(res.data.data.user));
             message.success("Success");
             navigate("/");
@@ -35,7 +34,7 @@ const Login = () => {
     }
     return (
         <Row justify={"center"}>
-            <Col xs={6}>
+            <Col xs={24} xl={6}>
                 <Typography.Title>
                     Sign in
                 </Typography.Title>
@@ -49,6 +48,8 @@ const Login = () => {
                     }}
                     initialValues={{
                         remember: true,
+                        email: 'user@gmail.com',
+                        password: "123456"
                     }}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
@@ -56,7 +57,7 @@ const Login = () => {
                 >
                     <Form.Item
                         label="Email"
-                        name="username"
+                        name="email"
                         rules={[
                             {
                                 required: true,
@@ -80,16 +81,16 @@ const Login = () => {
                         <Input.Password />
                     </Form.Item>
 
-                    <Form.Item
-                        name="remember"
-                        valuePropName="checked"
-                        wrapperCol={{
-                            offset: 0,
-                            span: 24,
-                        }}
-                    >
-                        <Checkbox>Remember me</Checkbox>
-                    </Form.Item>
+                    {/*<Form.Item*/}
+                    {/*    name="remember"*/}
+                    {/*    valuePropName="checked"*/}
+                    {/*    wrapperCol={{*/}
+                    {/*        offset: 0,*/}
+                    {/*        span: 24,*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*    <Checkbox>Remember me</Checkbox>*/}
+                    {/*</Form.Item>*/}
 
                     <Form.Item
                         wrapperCol={{
@@ -97,11 +98,16 @@ const Login = () => {
                             span: 24,
                         }}
                     >
-                        <Button type="primary" htmlType="submit" loading={loading} style={{width: "100%"}}>
+                        <Button type="primary" danger htmlType="submit" loading={loading} style={{width: "100%"}}>
                             Login
                         </Button>
                     </Form.Item>
                 </Form>
+                <Link to='/'>
+                    <Button type="primary" danger style={{width: "100%"}}>
+                        Go To Home
+                    </Button>
+                </Link>
             </Col>
         </Row>
     )

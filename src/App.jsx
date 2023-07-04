@@ -20,6 +20,8 @@ import Order from "./pages/order/index.jsx";
 import {Col, Row} from "antd";
 import Checkout from "./pages/checkout/index.jsx";
 import OrderHistory from "./pages/orderHistory/index.jsx";
+import TopHeader from "./components/header/topHeader.jsx";
+import BottomHeader from "./components/header/bottomHeader.jsx";
 
 const Layout = () => {
     return (
@@ -34,14 +36,48 @@ const Layout = () => {
                     <Outlet />
                 </Col>
             </Row>
-            <Row justify="center" style={{backgroundColor: "#f53d2d"}}>
-                <Col xs={23} xl={18}>
-                    <Footer />
-                </Col>
-            </Row>
+            {/*<Row justify="center" style={{backgroundColor: "#f53d2d"}}>*/}
+            {/*    <Col xs={23} xl={18}>*/}
+            {/*        <Footer />*/}
+            {/*    </Col>*/}
+            {/*</Row>*/}
         </>
     )
 }
+
+const LayoutSecond = () => {
+    return (
+        <Row justify="center" align='middle' style={{height: '100vh'}}>
+            <Col xs={23} md={20} xl={18}>
+                <Outlet />
+            </Col>
+        </Row>
+    )
+}
+
+const LayoutThird = () => {
+    return (
+        <>
+            <Row justify="center" style={{backgroundColor: "#f53d2d"}}>
+                <Col xs={23} xl={18}>
+                    <TopHeader/>
+                    <BottomHeader />
+                </Col>
+            </Row>
+            <Row justify="center" style={{marginTop: "30px"}}>
+                <Col xs={23} xl={18}>
+                    <Outlet />
+                </Col>
+            </Row>
+            {/*<Row justify="center" style={{backgroundColor: "#f53d2d"}}>*/}
+            {/*    <Col xs={23} xl={18}>*/}
+            {/*        <Footer />*/}
+            {/*    </Col>*/}
+            {/*</Row>*/}
+        </>
+    )
+}
+
 
 export default function App() {
     const dispatch = useDispatch();
@@ -67,21 +103,39 @@ export default function App() {
             children: [
                 {index: true, element: <Home />},
                 {
+                    path: ":id",
+                    element: <BookDetail />
+                },
+                {
+                    path: 'order-history',
+                    element: <OrderHistory />
+                },
+            ],
+        },
+        {
+            path: '/auth/',
+            element: <LayoutSecond/>,
+            children: [
+                {index: true, element: <Login />},
+                {
                     path: "admin",
                     element: <Admin />,
                 },
                 {
                     path: "login",
-                    element: <Login />,
+                    element: <Login/>,
                 },
                 {
                     path: "register",
-                    element: <Register />,
+                    element: <Register/>,
                 },
-                {
-                    path: ":id",
-                    element: <BookDetail />
-                },
+            ]
+        },
+        {
+            path: '/action/',
+            element: <LayoutThird />,
+            children: [
+                {index: true, element: <Order />},
                 {
                     path: "order",
                     element: <Order />
@@ -90,12 +144,8 @@ export default function App() {
                     path: 'checkout',
                     element: <Checkout />
                 },
-                {
-                    path: 'order-history',
-                    element: <OrderHistory />
-                }
-            ],
-        },
+            ]
+        }
     ]);
 
     return (
