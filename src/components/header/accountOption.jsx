@@ -1,4 +1,4 @@
-import {Button, Col, Divider, Popover, Row, Space} from "antd";
+import {Button, Col, Divider, message, Popover, Row, Space} from "antd";
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 
@@ -7,6 +7,7 @@ const AccountOption = () => {
     const token = localStorage.getItem('access_token');
     const handleLogout = async () => {
         await localStorage.removeItem('access_token');
+        message.success("Logout success");
         navigate('/auth/login');
     }
     const [open, setOpen] = useState(false);

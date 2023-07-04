@@ -23,7 +23,7 @@ const Login = () => {
         if(res?.data){
             localStorage.setItem("access_token", res.data.data.access_token);
             dispatch(loginAction(res.data.data.user));
-            message.success("Success");
+            message.success("Login success");
             navigate("/");
         } else {
             message.error("Error");
