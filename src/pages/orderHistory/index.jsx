@@ -73,7 +73,7 @@ const OrderHistory = () => {
                     </Row>
                 )
             })}
-            <Row justify="center" style={{marginTop: "20px"}}>
+            <Row justify="center" style={{margin: "20px 0"}}>
                 <Pagination current={current} pageSize={pageSize} total={total} onChange={onChange}/>
             </Row>
         </>

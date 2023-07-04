@@ -5,7 +5,7 @@ const ProductItem = ({product}) => {
     return (
         <Card
             hoverable
-            cover={<img alt="example" src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${product?.thumbnail}`} />}
+            cover={<img alt="example" src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${product?.thumbnail}`} style={{width: '100%%'}}/>}
         >
             <Meta title={product.mainText}/>
             <Typography.Title level={4} style={{color: "red", fontWeight: "bold", margin: "15px 0"}}>{convertVND(product.price)}</Typography.Title>

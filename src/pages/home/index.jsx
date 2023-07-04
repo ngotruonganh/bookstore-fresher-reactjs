@@ -5,7 +5,7 @@ import {
     Divider,
     Dropdown,
     Pagination,
-    Row,
+    Row, Skeleton,
     Space,
     Typography
 } from "antd";
@@ -118,7 +118,7 @@ const Home = () => {
     return (
         <>
             {loading ? (
-                <SkeletonComponent />
+                <Skeleton />
             ) : (
             <Row gutter={[32, 32]}>
                 <Col xs={0} xl={4} style={{backgroundColor: 'white', borderRadius: "3px", paddingTop: "10px"}}>
@@ -206,8 +206,7 @@ const Home = () => {
                         })}
 
                     </Row>
-
-                    <Row justify="center" style={{marginTop: "20px"}}>
+                    <Row justify="center" style={{margin: "20px 0"}}>
                         <PaginationComponent current={current} pageSize={pageSize} total={total} onChange={onChange}/>
                     </Row>
                 </Col>
