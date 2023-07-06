@@ -66,7 +66,7 @@ const Order = () => {
                     extra={
                         <Link to='/'>
                             <Button type="primary" danger>
-                                Back To Home
+                                Go Shopping Now
                             </Button>
                         </Link>
                     }

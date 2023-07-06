@@ -9,6 +9,7 @@ const AccountOption = () => {
         await localStorage.removeItem('access_token');
         message.success("Logout success");
         navigate('/auth/login');
+        setOpen(false);
     }
     const [open, setOpen] = useState(false);
     const handleOpenChange = (newOpen) => {
@@ -20,7 +21,7 @@ const AccountOption = () => {
                 <Row>
                     <Col span={24}>
                         {token ? (
-                            <Link to='/order-history' style={{color: "black"}}>My Purchase</Link>
+                            <Link to='/action/order-history' style={{color: "black"}}>My Purchase</Link>
                             ) : (
                             <Link to='/auth/login' style={{color: "black"}}>My Purchase</Link>
                             )

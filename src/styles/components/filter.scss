@@ -1,0 +1,17 @@
+.menuIcon {
+  display: block;
+  font-size: 25px;
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.filter-d {
+  display: none;
+  backgroundColor: white;
+  borderRadius: 3px;
+  paddingTop: 10px;
+  @media (min-width: 768px) {
+    display: block;
+  }
+}

@@ -15,13 +15,13 @@ import Register from "./pages/register";
 import Admin from "./pages/admin";
 import Home from "./pages/home";
 import BookDetail from "./pages/bookDetail"
-import Loading from "./components/loading";
 import Order from "./pages/order/index.jsx";
 import {Col, Row} from "antd";
 import Checkout from "./pages/checkout/index.jsx";
 import OrderHistory from "./pages/orderHistory/index.jsx";
 import TopHeader from "./components/header/topHeader.jsx";
 import BottomHeader from "./components/header/bottomHeader.jsx";
+import './styles/global.scss';
 
 const Layout = () => {
     return (
@@ -106,10 +106,6 @@ export default function App() {
                     path: ":id",
                     element: <BookDetail />
                 },
-                {
-                    path: 'order-history',
-                    element: <OrderHistory />
-                },
             ],
         },
         {
@@ -143,6 +139,10 @@ export default function App() {
                 {
                     path: 'checkout',
                     element: <Checkout />
+                },
+                {
+                    path: 'order-history',
+                    element: <OrderHistory />
                 },
             ]
         }

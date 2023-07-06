@@ -1,8 +1,7 @@
 import {getHistoryOrder} from "../../services/useServer.jsx";
 import {useEffect, useState} from "react";
-import {Col, Pagination, Row, Skeleton} from "antd";
+import {Col, Pagination, Row, Skeleton, Tag} from "antd";
 import {convertVND} from "../../function/index.jsx";
-import loading from "../../components/loading/index.jsx";
 
 const OrderHistory = () => {
     const [order, setOrder] = useState([]);
@@ -27,48 +26,36 @@ const OrderHistory = () => {
     const onChange = (page) => {
         setCurrent(page);
     };
-
     return (
         <>
-            <Skeleton loading={loading}/>
-            <Row align='middle' style={{marginTop: "10px", padding: '10px', backgroundColor: "white"}}>
-                <Col xs={8} xl={4}>
-                    Name
-                </Col>
-                <Col xs={8} xl={3}>
-                    Phone
-                </Col>
-                <Col xs={8} xl={3}>
-                    address
-                </Col>
-                <Col xs={24} xl={9} style={{justifyContent: "center"}}>
-                    Detail
-                </Col>
-                <Col xs={24} xl={5} style={{justifyContent: "center"}}>
-                    Total Price
-                </Col>
-            </Row>
-            {order.map((item) => {
+            {order.map(item => {
                 return (
-                    <Row key={item._id} align='middle' style={{marginTop: "10px", padding: '10px', backgroundColor: "white"}}>
-                        <Col xs={8} xl={4}>
-                            {item.name}
+                    <Row  key={item._id} justify='space-between' align='middle' style={{marginTop: "10px", padding: '10px', backgroundColor: "white"}}>
+                        <Col>
+                            Shop
                         </Col>
-                        <Col xs={8} xl={3}>
-                            {item.phone}
+                        <Col>
+                            <Tag color="success">
+                                Đơn hàng đã được giao thành công
+                            </Tag>
+                            <Tag color="error">
+                                COMPLETED
+                            </Tag>
                         </Col>
-                        <Col xs={8} xl={3}>
-                            {item.address}
-                        </Col>
-                        <Col xs={24} xl={9}>
-                            <Row>
-                                <Col key={item.detail._id} span={24}>
-                                    {item.detail.quantity}
+                        <Col span={24}>
+                            <Row justify='space-between'>
+                                <Col >
+                                </Col>
+                                <Col>
                                 </Col>
                             </Row>
                         </Col>
-                        <Col xs={24} xl={5} style={{justifyContent: "end", color: 'red', fontWeight: "bold"}}>
-                            {convertVND(item.totalPrice)}
+                        <Col span={24} style={{display: 'flex', justifyContent: 'end', alignItems: 'center'}}>
+                            <span> Order Total: </span>
+                            &nbsp;
+                            <span style={{justifyContent: "end", color: 'red', fontWeight: "bold", fontSize: '20px'}}>
+                                {convertVND(item.totalPrice)}
+                            </span>
                         </Col>
                     </Row>
                 )
