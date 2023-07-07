@@ -16,7 +16,7 @@ const OrderHistory = () => {
     }, [current]);
 
     const getOrder = async () => {
-        const query = `/api/v1/order?current=${current}&pageSize=${pageSize}`;
+        const query = `/api/v1/order?current=${current}&pageSize=${pageSize}&sort=-createdAt`;
         const res =  await getHistoryOrder(query);
         if(res && res.data){
             setOrder(res.data.data.result);
