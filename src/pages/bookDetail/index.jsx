@@ -47,7 +47,7 @@ const BookDetail = () => {
             return;
         }
         if (!token) {
-            navigate('/auth.jsx/login');
+            navigate('/auth/login');
             return;
         }
         dispatch(addToCart({_id: item._id, quantity, detail: item}));

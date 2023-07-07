@@ -105,9 +105,8 @@ const Checkout = () => {
                             span: 24,
                         }}
                         initialValues={{
-                            name: 'user',
-                            phone: '123456',
-                            address: 'Ho Chi Minh'
+                            name: account.fullName,
+                            phone: account.phone,
                         }}
                         onFinish={onCheckout}
                         onFinishFailed={onCheckoutFailed}
