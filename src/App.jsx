@@ -1,16 +1,10 @@
-import {
-    createBrowserRouter,
-    RouterProvider,
-    Outlet
-} from "react-router-dom";
+import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import {useEffect} from "react";
-import {callFetchAccount} from "./services/useServer.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {getAccountAction} from "./redux/account/accountSlice.jsx";
 
 import Login from "./pages/login";
 import Header from "./components/header";
-import Footer from "./components/footer";
 import Register from "./pages/register";
 import Admin from "./pages/admin";
 import Home from "./pages/home";
@@ -22,18 +16,42 @@ import OrderHistory from "./pages/orderHistory/index.jsx";
 import TopHeader from "./components/header/topHeader.jsx";
 import BottomHeader from "./components/header/bottomHeader.jsx";
 import './styles/global.scss';
+import ManageBooks from "./pages/admin/manageBooks.jsx";
+import Dashboard from "./pages/admin/dashboard.jsx";
+import ManageUsers from "./pages/admin/manageUsers.jsx";
+import {callFetchAccount} from "./services/auth.jsx";
+
+const AdminLayout = () => {
+    return (
+        <>
+            <Row justify="center" style={{backgroundColor: "#f53d2d"}}>
+                <Col xs={23} xl={18}>
+                    <TopHeader/>
+                </Col>
+            </Row>
+            <Row gutter={[16, 16]} justify="center" style={{marginTop: "30px"}}>
+                <Col span={5}>
+                    <Admin/>
+                </Col>
+                <Col span={17}>
+                    <Outlet/>
+                </Col>
+            </Row>
+        </>
+    )
+}
 
 const Layout = () => {
     return (
         <>
             <Row justify="center" style={{backgroundColor: "#f53d2d"}}>
                 <Col xs={23} xl={18}>
-                    <Header />
+                    <Header/>
                 </Col>
             </Row>
             <Row justify="center" style={{marginTop: "30px"}}>
                 <Col xs={23} xl={18}>
-                    <Outlet />
+                    <Outlet/>
                 </Col>
             </Row>
             {/*<Row justify="center" style={{backgroundColor: "#f53d2d"}}>*/}
@@ -49,7 +67,7 @@ const LayoutSecond = () => {
     return (
         <Row justify="center" align='middle' style={{height: '100vh'}}>
             <Col xs={23} md={20} xl={18}>
-                <Outlet />
+                <Outlet/>
             </Col>
         </Row>
     )
@@ -61,12 +79,12 @@ const LayoutThird = () => {
             <Row justify="center" style={{backgroundColor: "#f53d2d"}}>
                 <Col xs={23} xl={18}>
                     <TopHeader/>
-                    <BottomHeader />
+                    <BottomHeader/>
                 </Col>
             </Row>
             <Row justify="center" style={{marginTop: "30px"}}>
                 <Col xs={23} xl={18}>
-                    <Outlet />
+                    <Outlet/>
                 </Col>
             </Row>
             {/*<Row justify="center" style={{backgroundColor: "#f53d2d"}}>*/}
@@ -83,7 +101,7 @@ export default function App() {
     const dispatch = useDispatch();
     const getAccount = async () => {
         const res = await callFetchAccount();
-        if(res && res.data){
+        if (res && res.data) {
             dispatch(getAccountAction(res.data.data.user));
         }
     }
@@ -98,25 +116,36 @@ export default function App() {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <Layout />,
+            element: <Layout/>,
             errorElement: <div>404</div>,
             children: [
-                {index: true, element: <Home />},
+                {index: true, element: <Home/>},
                 {
                     path: ":id",
-                    element: <BookDetail />
+                    element: <BookDetail/>
                 },
             ],
         },
         {
-            path: '/auth/',
+            path: "/admin/",
+            element: <AdminLayout/>,
+            children: [
+                {index: true, element: <Dashboard/>},
+                {
+                    path: 'user',
+                    element: <ManageUsers/>
+                },
+                {
+                    path: 'book',
+                    element: <ManageBooks/>
+                }
+            ]
+        },
+        {
+            path: '/auth.jsx/',
             element: <LayoutSecond/>,
             children: [
-                {index: true, element: <Login />},
-                {
-                    path: "admin",
-                    element: <Admin />,
-                },
+                {index: true, element: <Login/>},
                 {
                     path: "login",
                     element: <Login/>,
@@ -129,20 +158,20 @@ export default function App() {
         },
         {
             path: '/action/',
-            element: <LayoutThird />,
+            element: <LayoutThird/>,
             children: [
-                {index: true, element: <Order />},
+                {index: true, element: <Order/>},
                 {
                     path: "order",
-                    element: <Order />
+                    element: <Order/>
                 },
                 {
                     path: 'checkout',
-                    element: <Checkout />
+                    element: <Checkout/>
                 },
                 {
                     path: 'order-history',
-                    element: <OrderHistory />
+                    element: <OrderHistory/>
                 },
             ]
         }
@@ -151,7 +180,7 @@ export default function App() {
     return (
         <>
             {/*{isAuthenticated ? <RouterProvider router={router} /> : <Loading />*/}
-            <RouterProvider router={router} />
+            <RouterProvider router={router}/>
         </>
     );
 }

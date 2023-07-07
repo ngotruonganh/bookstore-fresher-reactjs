@@ -1,5 +1,5 @@
 const convertVND = (x) => {
-    return x.toLocaleString('en-US', {style : 'currency', currency : 'VND'});
+    return x.toLocaleString('en-US', {style: 'currency', currency: 'VND'});
 }
 
 const nonAccentVietnamese = (str) => {

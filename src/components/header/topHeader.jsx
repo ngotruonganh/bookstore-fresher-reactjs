@@ -1,11 +1,10 @@
-import { Col, Row} from "antd";
+import {Col, Row} from "antd";
 import AccountOption from "./accountOption.jsx";
-import Language from "./language.jsx";
 
 const TopHeader = () => {
 
     return (
-        <Row justify="space-between" style={{marginTop: '5px'}}>
+        <Row justify="space-between" align='middle' style={{marginTop: '5px'}}>
             <Col style={{color: "white"}}>
                 Follow us on ...
             </Col>
@@ -15,7 +14,7 @@ const TopHeader = () => {
                         {/*<Language />*/}
                     </Col>
                     <Col>
-                        <AccountOption />
+                        <AccountOption/>
                     </Col>
                 </Row>
             </Col>

@@ -23,19 +23,21 @@ const Header = () => {
                         return (
                             <Row key={item._id} justify='space-between' align='middle' style={{maxWidth: '400px'}}>
                                 <Col>
-                                    <Image src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${item.detail.thumbnail}`} style={{width: '60px'}}/>
+                                    <Image
+                                        src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${item.detail.thumbnail}`}
+                                        style={{width: '60px'}}/>
                                 </Col>
                                 <Col span={15}>
                                     {item.detail.mainText}
                                 </Col>
                                 <Col style={{color: 'red', fontWeight: 'bold'}}>{convertVND(item.detail.price)}</Col>
-                                <Divider />
+                                <Divider/>
                             </Row>
                         )
                     })}
                     <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                         {count > 3 ?
-                            <p>{count -3} More Products In Cart</p> :
+                            <p>{count - 3} More Products In Cart</p> :
                             <p></p>
                         }
                         <Button type='primary' danger>
@@ -57,7 +59,7 @@ const Header = () => {
                     <Link to="/">
                         <Typography.Title level={3} style={{color: "white"}}>
                             Shop
-                        </Typography.Title >
+                        </Typography.Title>
                     </Link>
                 </Col>
                 <Col flex="auto">

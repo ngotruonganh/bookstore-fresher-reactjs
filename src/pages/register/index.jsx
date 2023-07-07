@@ -1,11 +1,12 @@
 import {Button, Col, Form, Input, Row, Typography} from 'antd';
-import {register} from "../../services/useServer.jsx";
+import {Link} from "react-router-dom";
+import {register} from "../../services/auth.jsx";
 
 const onFinish = async (values) => {
     console.log('Success:', values);
     let res = await register(values.fullName, values.email, values.password, values.phone);
     console.log(res);
-    if(res){
+    if (res) {
         alert("/");
     }
 
@@ -89,11 +90,18 @@ const Register = () => (
                         span: 24,
                     }}
                 >
-                    <Button type="primary" htmlType="submit" loading={false} style={{width: "100%", marginTop: "30px"}}>
+                    <Button type="primary" danger htmlType="submit" loading={false}
+                            style={{width: "100%", marginTop: "30px"}}>
                         Register
                     </Button>
                 </Form.Item>
             </Form>
+            <div style={{textAlign: 'center'}}>
+                <span>
+                    Have an account?&nbsp;
+                    <Link to='/auth/login'>Log In</Link>
+                </span>
+            </div>
         </Col>
     </Row>
 );

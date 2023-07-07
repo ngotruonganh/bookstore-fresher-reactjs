@@ -1,7 +1,7 @@
-import {getHistoryOrder} from "../../services/useServer.jsx";
 import {useEffect, useState} from "react";
-import {Col, Pagination, Row, Skeleton, Tag} from "antd";
+import {Col, Pagination, Row, Tag} from "antd";
 import {convertVND} from "../../function/index.jsx";
+import {getHistoryOrder} from "../../services/user.jsx";
 
 const OrderHistory = () => {
     const [order, setOrder] = useState([]);
@@ -17,8 +17,8 @@ const OrderHistory = () => {
 
     const getOrder = async () => {
         const query = `/api/v1/order?current=${current}&pageSize=${pageSize}&sort=-createdAt`;
-        const res =  await getHistoryOrder(query);
-        if(res && res.data){
+        const res = await getHistoryOrder(query);
+        if (res && res.data) {
             setOrder(res.data.data.result);
             setTotal(res.data.data.meta.total)
         }
@@ -30,7 +30,8 @@ const OrderHistory = () => {
         <>
             {order.map(item => {
                 return (
-                    <Row  key={item._id} justify='space-between' align='middle' style={{marginTop: "10px", padding: '10px', backgroundColor: "white"}}>
+                    <Row key={item._id} justify='space-between' align='middle'
+                         style={{marginTop: "10px", padding: '10px', backgroundColor: "white"}}>
                         <Col>
                             Shop
                         </Col>
@@ -44,7 +45,7 @@ const OrderHistory = () => {
                         </Col>
                         <Col span={24}>
                             <Row justify='space-between'>
-                                <Col >
+                                <Col>
                                 </Col>
                                 <Col>
                                 </Col>

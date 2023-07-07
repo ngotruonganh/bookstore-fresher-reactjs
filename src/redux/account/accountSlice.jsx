@@ -1,14 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
     isAuthenticated: false,
     user: {
-      email: "",
-      phone: "",
-      fullName: "",
-      role: "",
-      avatar: "",
-      id: ""
+        email: "",
+        phone: "",
+        fullName: "",
+        role: "",
+        avatar: "",
+        id: ""
     }
 };
 
@@ -22,13 +22,13 @@ export const accountSlice = createSlice({
         },
         getAccountAction: (state, action) => {
             state.isAuthenticated = true;
-            state.user = action.payload.user;
+            state.user = action.payload;
         },
     },
     extraReducers: (builder) => {
     }
 });
 
-export const { loginAction, getAccountAction } = accountSlice.actions;
+export const {loginAction, getAccountAction} = accountSlice.actions;
 
 export default accountSlice.reducer;

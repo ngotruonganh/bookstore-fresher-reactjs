@@ -1,9 +1,10 @@
-import {Button, Checkbox, Col, Form, Input, message, Row, Typography} from 'antd';
-import {login} from "../../services/useServer.jsx";
+import {Button, Col, Form, Input, message, Row, Typography} from 'antd';
 import {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {loginAction} from "../../redux/account/accountSlice.jsx";
+import {login} from "../../services/auth.jsx";
+
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -20,7 +21,7 @@ const Login = () => {
         setLoading(true);
         let res = await login(values.email, values.password);
         setLoading(false);
-        if(res?.data){
+        if (res?.data) {
             localStorage.setItem("access_token", res.data.data.access_token);
             dispatch(loginAction(res.data.data.user));
             message.success("Login success");
@@ -65,7 +66,7 @@ const Login = () => {
                             },
                         ]}
                     >
-                        <Input />
+                        <Input/>
                     </Form.Item>
 
                     <Form.Item
@@ -78,7 +79,7 @@ const Login = () => {
                             },
                         ]}
                     >
-                        <Input.Password />
+                        <Input.Password/>
                     </Form.Item>
 
                     {/*<Form.Item*/}

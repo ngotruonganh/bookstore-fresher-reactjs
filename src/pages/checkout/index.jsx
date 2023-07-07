@@ -1,12 +1,11 @@
-import {Button, Col, Divider, Form, Input, message, Row, Skeleton, Typography} from "antd";
+import {Button, Col, Form, Input, message, Row, Typography} from "antd";
 import {convertVND} from "../../function/index.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {checkout} from "../../services/useServer.jsx";
 import {useEffect, useState} from "react";
 import {emptyCart} from "../../redux/order/orderSlice.jsx";
 import {useNavigate} from "react-router-dom";
 import TextArea from "antd/es/input/TextArea.js";
-import loading from "../../components/loading/index.jsx";
+import {checkout} from "../../services/user.jsx";
 
 const Checkout = () => {
     const orderList = useSelector(state => state.order.cart);
@@ -36,7 +35,7 @@ const Checkout = () => {
             detail: detailOrder
         }
         const res = await checkout(data);
-        if(res && res.data){
+        if (res && res.data) {
             message.success('success');
             dispatch(emptyCart());
             navigate('/');
@@ -48,14 +47,13 @@ const Checkout = () => {
     const [totalPrice, setTotalPrice] = useState(0);
 
     useEffect(() => {
-        if(orderList && orderList.length > 0) {
+        if (orderList && orderList.length > 0) {
             let sum = 0;
             orderList.map(item => {
                 sum += item.quantity * item.detail.price;
             })
             setTotalPrice(sum);
-        }
-        else {
+        } else {
             setTotalPrice(convertVND(0));
         }
     }, [orderList]);
@@ -68,7 +66,7 @@ const Checkout = () => {
                 <Col xs={12} xl={3} style={{textAlign: "end"}}>
                     Unit Price
                 </Col>
-                <Col xs={12}  xl={7} style={{textAlign: "center"}}>
+                <Col xs={12} xl={7} style={{textAlign: "center"}}>
                     Quantity
                 </Col>
                 <Col xs={12} xl={4} style={{textAlign: "end"}}>
@@ -77,15 +75,17 @@ const Checkout = () => {
             </Row>
             {orderList && orderList.length > 0 && orderList.map((item) => {
                 return (
-                    <Row key={item._id} align='middle' style={{marginTop: "10px", padding: '10px', backgroundColor: "white"}}>
+                    <Row key={item._id} align='middle'
+                         style={{marginTop: "10px", padding: '10px', backgroundColor: "white"}}>
                         <Col xs={12} xl={10} style={{textAlign: "start"}}>
-                            <img src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${item?.detail?.thumbnail}`} style={{width: '100px'}} alt={item.detail.mainText}/>
+                            <img src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${item?.detail?.thumbnail}`}
+                                 style={{width: '100px'}} alt={item.detail.mainText}/>
                             <div>{item.detail.mainText}</div>
                         </Col>
                         <Col xs={12} xl={3} style={{textAlign: "end"}}>
                             {convertVND(item.detail.price)}
                         </Col>
-                        <Col xs={12}  xl={7} style={{textAlign: "center"}}>
+                        <Col xs={12} xl={7} style={{textAlign: "center"}}>
                             {item.quantity}
                         </Col>
                         <Col xs={12} xl={4} style={{color: 'red', textAlign: "end", fontWeight: "bold"}}>
@@ -123,7 +123,7 @@ const Checkout = () => {
                                 },
                             ]}
                         >
-                           <Input />
+                            <Input/>
                         </Form.Item>
 
                         <Form.Item
@@ -136,7 +136,7 @@ const Checkout = () => {
                                 },
                             ]}
                         >
-                            <Input />
+                            <Input/>
                         </Form.Item>
                         <Form.Item
                             label="Address"
@@ -148,7 +148,7 @@ const Checkout = () => {
                                 },
                             ]}
                         >
-                            <TextArea />
+                            <TextArea/>
                         </Form.Item>
 
                         <Form.Item
@@ -157,7 +157,8 @@ const Checkout = () => {
                                 span: 24,
                             }}
                         >
-                            <Typography.Title level={2} style={{color: "red"}}>{convertVND(totalPrice)}</Typography.Title>
+                            <Typography.Title level={2}
+                                              style={{color: "red"}}>{convertVND(totalPrice)}</Typography.Title>
                             <Button htmlType="submit" type='primary' danger style={{width: "100%"}}>
                                 Checkout
                             </Button>

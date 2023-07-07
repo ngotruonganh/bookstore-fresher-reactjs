@@ -1,46 +1,36 @@
-import {AppstoreOutlined, MailOutlined} from '@ant-design/icons';
-import { Menu } from 'antd';
-import { useState } from 'react';
-function getItem(label, key, icon, children, type) {
-    return {
-        key,
-        icon,
-        children,
-        label,
-        type,
-    };
-}
+import {Menu} from 'antd';
+import {Link} from "react-router-dom";
+import {useState} from "react";
+
 const items = [
-    getItem('Users', 'sub1', <MailOutlined />, [
-        getItem('Manage Users', '1'),
-        getItem('Option 2', '2'),
-    ]),
-    getItem('Books', 'sub2', <AppstoreOutlined />, [
-        getItem('manage Books', '3'),
-        getItem('Option 2', '4'),
-    ]),
+    {
+        label: <Link to='/admin'>Dashboard</Link>,
+        key: 'dashboard',
+    },
+    {
+        label: <Link to='/admin/user'>Manage users</Link>,
+        key: 'users',
+    },
+    {
+        label: <Link to='/admin/book'>Manage books</Link>,
+        key: 'books',
+    },
 ];
 
-// submenu keys of first level
-const rootSubmenuKeys = ['sub1', 'sub2'];
 const MenuAdmin = () => {
-    const [openKeys, setOpenKeys] = useState(['sub1']);
-    const onOpenChange = (keys) => {
-        const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
-        if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-            setOpenKeys(keys);
-        } else {
-            setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
-        }
+    const [current, setCurrent] = useState('dashboard');
+    const onClick = (e) => {
+        console.log('click ', e);
+        setCurrent(e.key);
     };
     return (
         <Menu
-            mode="inline"
-            openKeys={openKeys}
-            onOpenChange={onOpenChange}
+            onClick={onClick}
             style={{
-                width: 256,
+                width: '100%',
             }}
+            defaultSelectedKeys={['dashboard']}
+            mode="inline"
             items={items}
         />
     );
