@@ -106,7 +106,6 @@ export default function App() {
         }
     }
 
-
     useEffect(() => {
         getAccount();
     }, []);
@@ -142,7 +141,7 @@ export default function App() {
             ]
         },
         {
-            path: '/auth.jsx/',
+            path: '/auth/',
             element: <LayoutSecond/>,
             children: [
                 {index: true, element: <Login/>},
