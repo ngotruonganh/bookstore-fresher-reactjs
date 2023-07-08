@@ -3,14 +3,9 @@ import {Link} from "react-router-dom";
 import {register} from "../../services/auth.jsx";
 
 const onFinish = async (values) => {
-    console.log('Success:', values);
-    let res = await register(values.fullName, values.email, values.password, values.phone);
-    console.log(res);
-    if (res) {
-        alert("/");
-    }
-
+    await register(values.fullName, values.email, values.password, values.phone);
 };
+
 const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
 };
@@ -81,7 +76,7 @@ const Register = () => (
                         },
                     ]}
                 >
-                    <Input.Password/>
+                    <Input/>
                 </Form.Item>
 
                 <Form.Item

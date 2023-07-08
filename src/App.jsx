@@ -105,14 +105,14 @@ export default function App() {
             return <Navigate to="/auth/" replace />;
         }
         return children;
-    };
+    }
 
     const IsLogin = ({ user, children }) => {
         if (user) {
             return <Navigate to="/" replace />;
         }
         return children;
-    };
+    }
 
     const getAccount = async () => {
         const res = await callFetchAccount();

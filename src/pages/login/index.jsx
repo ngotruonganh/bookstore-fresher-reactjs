@@ -109,6 +109,12 @@ const Login = () => {
                         Go To Home
                     </Button>
                 </Link>
+                <div style={{textAlign: 'center', marginTop: '30px'}}>
+                    <span>
+                        New to Shop?&nbsp;
+                        <Link to='/auth/register'>Sign Up</Link>
+                    </span>
+                </div>
             </Col>
         </Row>
     )

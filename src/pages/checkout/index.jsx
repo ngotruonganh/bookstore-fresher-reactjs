@@ -61,7 +61,7 @@ const Checkout = () => {
         <>
             <Row align='middle' style={{marginTop: "10px", padding: '15px', backgroundColor: "white"}}>
                 <Col xs={12} xl={10} style={{textAlign: "start"}}>
-                    <div>Product</div>
+                    Product
                 </Col>
                 <Col xs={12} xl={3} style={{textAlign: "end"}}>
                     Unit Price
@@ -143,7 +143,7 @@ const Checkout = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your phone!',
+                                    message: 'Please input your address!',
                                 },
                             ]}
                         >
