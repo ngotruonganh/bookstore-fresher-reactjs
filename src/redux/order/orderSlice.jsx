@@ -44,8 +44,6 @@ export const orderSlice = createSlice({
             state.cart = [];
         },
     },
-    extraReducers: (builder) => {
-    }
 });
 
 export const {

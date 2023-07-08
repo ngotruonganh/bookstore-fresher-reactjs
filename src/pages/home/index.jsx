@@ -7,13 +7,13 @@ import PaginationComponent from "../../components/pagination/index.jsx";
 import {convertSlug} from "../../function/index.jsx";
 import {getAllBooks} from "../../services/book.jsx";
 import {getCategories} from "../../services/user.jsx";
+import {useSelector} from "react-redux";
 
 const Home = () => {
     const navigate = useNavigate();
     const [listBook, setListBook] = useState([]);
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
-
 
     // categories
     const [listCategories, setListCategories] = useState([]);
@@ -24,16 +24,17 @@ const Home = () => {
     const [total, setTotal] = useState(0);
     // sort
     const [sort, setSort] = useState('sort=-sold');
+    const mainText = useSelector(state => state.search.searchText);
 
     useEffect(() => {
         setLoading(true);
         getBooks();
         getAllCategories();
         setLoading(false);
-    }, [current, sort, filerCategories]);
+    }, [current, sort, filerCategories, mainText]);
 
     const getBooks = async () => {
-        const query = `/api/v1/book?current=${current}&pageSize=${pageSize}&${sort}&category=${filerCategories}`;
+        const query = `/api/v1/book?current=${current}&pageSize=${pageSize}&${sort}&category=${filerCategories}&mainText=/${mainText}/i`;
         const res = await getAllBooks(query);
         if (res && res.data) {
             setListBook(res.data.data.result);

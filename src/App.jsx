@@ -28,6 +28,7 @@ const AdminLayout = () => {
             <Row justify="center" style={{backgroundColor: "#f53d2d"}}>
                 <Col xs={23} xl={18}>
                     <TopHeader/>
+                    <BottomHeader />
                 </Col>
             </Row>
             <Row gutter={[16, 16]} justify="center" style={{marginTop: "30px"}}>
@@ -42,7 +43,7 @@ const AdminLayout = () => {
     )
 }
 
-const Layout = () => {
+const MainLayout = () => {
     return (
         <>
             <Row justify="center" style={{backgroundColor: "#f53d2d"}}>
@@ -64,7 +65,7 @@ const Layout = () => {
     )
 }
 
-const LayoutSecond = () => {
+const AuthLayout = () => {
     return (
         <Row justify="center" align='middle' style={{height: '100vh'}}>
             <Col xs={23} md={20} xl={18}>
@@ -74,7 +75,7 @@ const LayoutSecond = () => {
     )
 }
 
-const LayoutThird = () => {
+const OrderLayout = () => {
     return (
         <>
             <Row justify="center" style={{backgroundColor: "#f53d2d"}}>
@@ -128,7 +129,7 @@ export default function App() {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <Layout />,
+            element: <MainLayout />,
             errorElement: <div>404</div>,
             children: [
                 {index: true, element: <Home />},
@@ -140,7 +141,10 @@ export default function App() {
         },
         {
             path: "/admin",
-            element: <AdminLayout />,
+            element:
+                <ProtectedRoute user={user}>
+                    <AdminLayout />
+                </ProtectedRoute>,
             errorElement: <div>404</div>,
             children: [
                 {index: true, element: <Dashboard />},
@@ -162,7 +166,7 @@ export default function App() {
         },
         {
             path: '/auth',
-            element: <LayoutSecond />,
+            element: <AuthLayout />,
             errorElement: <div>404</div>,
             children: [
                 {index: true,
@@ -182,8 +186,8 @@ export default function App() {
             ]
         },
         {
-            path: '/order/',
-            element: <LayoutThird/>,
+            path: '/order',
+            element: <OrderLayout />,
             errorElement: <div>404</div>,
             children: [
                 {index: true, element:

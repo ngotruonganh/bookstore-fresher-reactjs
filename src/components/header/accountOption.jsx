@@ -1,16 +1,21 @@
 import {Col, Divider, message, Popover, Row} from "antd";
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {logout} from "../../services/auth.jsx";
+import {logoutAction} from "../../redux/account/accountSlice.jsx";
 
 const AccountOption = () => {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const user = useSelector(state => state.account.user);
     const token = localStorage.getItem('access_token');
+    const dispatch = useDispatch();
     const handleLogout = async () => {
-        await localStorage.removeItem('access_token');
+        // await logout();
+        localStorage.removeItem('access_token');
         message.success("Logout success");
+        dispatch(logoutAction());
         navigate('/auth');
         setOpen(false);
     }

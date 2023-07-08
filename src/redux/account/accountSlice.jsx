@@ -24,11 +24,24 @@ export const accountSlice = createSlice({
             state.isAuthenticated = true;
             state.user = action.payload;
         },
+        logoutAction: (state, action) => {
+            state.isAuthenticated = false;
+            state.user = {
+                email: "",
+                phone: "",
+                fullName: "",
+                role: "",
+                avatar: "",
+                id: ""
+            }
+        }
     },
-    extraReducers: (builder) => {
-    }
 });
 
-export const {loginAction, getAccountAction} = accountSlice.actions;
+export const {
+    loginAction,
+    getAccountAction,
+    logoutAction,
+} = accountSlice.actions;
 
 export default accountSlice.reducer;
