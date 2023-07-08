@@ -182,7 +182,7 @@ export default function App() {
             ]
         },
         {
-            path: '/order',
+            path: '/order/',
             element: <LayoutThird/>,
             errorElement: <div>404</div>,
             children: [

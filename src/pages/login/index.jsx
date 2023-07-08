@@ -48,7 +48,7 @@ const Login = () => {
                         span: 24,
                     }}
                     initialValues={{
-                        remember: true,
+                        // remember: true,
                         email: 'user@gmail.com',
                         password: "123456"
                     }}

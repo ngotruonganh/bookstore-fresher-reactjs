@@ -9,6 +9,13 @@ const onFinish = async (values) => {
 const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
 };
+
+const validateMessages = {
+    required: '${label} is required!',
+    types: {
+        email: '${label} is not a valid email!',
+    },
+};
 const Register = () => (
     <Row justify={"center"}>
         <Col xs={22} xl={6}>
@@ -26,6 +33,7 @@ const Register = () => (
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
+                validateMessages={validateMessages}
             >
                 <Form.Item
                     label="Full name"
@@ -33,7 +41,6 @@ const Register = () => (
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your full name!',
                         },
                     ]}
                 >
@@ -46,7 +53,7 @@ const Register = () => (
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your email!',
+                            type: 'email',
                         },
                     ]}
                 >
@@ -59,7 +66,6 @@ const Register = () => (
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your password!',
                         },
                     ]}
                 >
@@ -72,7 +78,6 @@ const Register = () => (
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your phone!',
                         },
                     ]}
                 >
@@ -91,7 +96,12 @@ const Register = () => (
                     </Button>
                 </Form.Item>
             </Form>
-            <div style={{textAlign: 'center'}}>
+            <Link to='/'>
+                <Button type="primary" danger style={{width: "100%"}}>
+                    Go To Home
+                </Button>
+            </Link>
+            <div style={{textAlign: 'center', marginTop: '30px'}}>
                 <span>
                     Have an account?&nbsp;
                     <Link to='/auth'>Log In</Link>
