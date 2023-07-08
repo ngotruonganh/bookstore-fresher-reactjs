@@ -2,21 +2,22 @@ import {Button, Col, Image, InputNumber, message, Row, Skeleton, Typography} fro
 import {useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {addToCart} from "../../redux/order/orderSlice.jsx";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {convertVND} from "../../function/index.jsx";
 import {getBookById} from "../../services/user.jsx";
 
 const BookDetail = () => {
     const location = useLocation();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     let params = new URLSearchParams(location.search);
     const id = params?.get('id');
-    const token = localStorage.getItem('access_token');
+    const isAuth = useSelector(state => state.account.isAuthenticated)
 
     const [bookDetail, setBookDetail] = useState([]);
     const [quantity, setQuantity] = useState(1);
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -46,8 +47,8 @@ const BookDetail = () => {
             message.error("sold out");
             return;
         }
-        if (!token) {
-            navigate('/auth/login');
+        if (!isAuth) {
+            navigate('/auth');
             return;
         }
         dispatch(addToCart({_id: item._id, quantity, detail: item}));
@@ -61,7 +62,7 @@ const BookDetail = () => {
     }
     return (
         <>
-            <Skeleton loading={loading}/>
+            <Skeleton loading={loading} />
             {bookDetail && bookDetail.length > 0 && bookDetail.map((item) => {
                 return (
                     <Row key={item._id} gutter={[8, 8]} justify="center" key={item._id}

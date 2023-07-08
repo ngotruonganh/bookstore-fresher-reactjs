@@ -99,7 +99,7 @@ const Register = () => (
             <div style={{textAlign: 'center'}}>
                 <span>
                     Have an account?&nbsp;
-                    <Link to='/auth/login'>Log In</Link>
+                    <Link to='/auth'>Log In</Link>
                 </span>
             </div>
         </Col>

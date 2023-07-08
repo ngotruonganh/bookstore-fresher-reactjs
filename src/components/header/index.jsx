@@ -25,7 +25,8 @@ const Header = () => {
                                 <Col>
                                     <Image
                                         src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${item.detail.thumbnail}`}
-                                        style={{width: '60px'}}/>
+                                        style={{width: '60px'}}
+                                    />
                                 </Col>
                                 <Col span={15}>
                                     {item.detail.mainText}
@@ -41,7 +42,7 @@ const Header = () => {
                             <p></p>
                         }
                         <Button type='primary' danger>
-                            <Link to='/action/order'>
+                            <Link to='/order'>
                                 View My Shopping Cart
                             </Link>
                         </Button>
@@ -70,17 +71,11 @@ const Header = () => {
                         count={count}
                         showZero
                     >
-                        {token ?
-                            <Popover content={content} placement="bottomRight">
-                                <Link to='/action/order'>
-                                    <ShoppingCartOutlined style={{fontSize: '30px', color: "white"}}/>
-                                </Link>
-                            </Popover>
-                            :
-                            <Link to='/auth/login'>
+                        <Popover content={content} placement="bottomRight">
+                            <Link to='/order'>
                                 <ShoppingCartOutlined style={{fontSize: '30px', color: "white"}}/>
                             </Link>
-                        }
+                        </Popover>
                     </Badge>
                 </Col>
             </Row>

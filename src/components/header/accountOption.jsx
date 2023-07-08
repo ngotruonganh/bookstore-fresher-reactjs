@@ -11,7 +11,7 @@ const AccountOption = () => {
     const handleLogout = async () => {
         await localStorage.removeItem('access_token');
         message.success("Logout success");
-        navigate('/auth/login');
+        navigate('/auth');
         setOpen(false);
     }
     const handleOpenChange = (newOpen) => {
@@ -24,28 +24,18 @@ const AccountOption = () => {
                     content={
                         <Row>
                             <Col span={24}>
-                                {token ? (
-                                        <Link to='/admin' style={{color: "black"}}>Admin</Link>) :
-                                    (
-                                        <Link to='/admin' style={{color: "black"}}>Admin</Link>
-                                    )
-                                }
+                                <Link to='/admin' style={{color: "black"}}>Admin</Link>
                             </Col>
                             <Divider/>
                             <Col span={24}>
-                                {token ? (
-                                    <Link to='/action/order-history' style={{color: "black"}}>My Purchase</Link>
-                                ) : (
-                                    <Link to='/auth/login' style={{color: "black"}}>My Purchase</Link>
-                                )
-                                }
+                                <Link to='/order/order-history' style={{color: "black"}}>My Purchase</Link>
                             </Col>
                             <Divider/>
                             <Col span={24}>
                                 {token ? (
                                         <Link onClick={handleLogout} style={{color: "black"}}>Logout</Link>
                                     ) :
-                                    <Link to='/auth/login' style={{color: "black"}}>Login</Link>
+                                    <Link to='/auth' style={{color: "black"}}>Login</Link>
                                 }
                             </Col>
                         </Row>
@@ -59,7 +49,7 @@ const AccountOption = () => {
                 </Popover>
             ) : (
                 <>
-                    <Link to='/auth/login' style={{color: 'white', cursor: 'pointer'}}>
+                    <Link to='/auth' style={{color: 'white', cursor: 'pointer'}}>
                         <p style={{color: 'white', cursor: 'pointer'}}>Login</p>
                     </Link>
                     {/*<Link to='/auth/register' style={{color: 'white', cursor: 'pointer'}}>Sign up</Link>*/}

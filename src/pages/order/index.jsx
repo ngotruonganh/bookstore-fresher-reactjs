@@ -53,7 +53,7 @@ const Order = () => {
         navigate(`/${slug}?id=${book._id}`);
     }
     const handleCheckOut = () => {
-        navigate('/action/checkout');
+        navigate('/order/checkout');
     }
     return (
         <>

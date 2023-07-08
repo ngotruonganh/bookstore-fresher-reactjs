@@ -1,25 +1,26 @@
-import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
+import {Col, Row} from "antd";
+import './styles/global.scss';
+import {createBrowserRouter, Navigate, Outlet, RouterProvider} from "react-router-dom";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getAccountAction} from "./redux/account/accountSlice.jsx";
 
-import Login from "./pages/login";
 import Header from "./components/header";
+import BottomHeader from "./components/header/bottomHeader.jsx";
+import TopHeader from "./components/header/topHeader.jsx";
+import Login from "./pages/login";
 import Register from "./pages/register";
 import Admin from "./pages/admin";
 import Home from "./pages/home";
 import BookDetail from "./pages/bookDetail"
 import Order from "./pages/order/index.jsx";
-import {Col, Row} from "antd";
 import Checkout from "./pages/checkout/index.jsx";
 import OrderHistory from "./pages/orderHistory/index.jsx";
-import TopHeader from "./components/header/topHeader.jsx";
-import BottomHeader from "./components/header/bottomHeader.jsx";
-import './styles/global.scss';
 import ManageBooks from "./pages/admin/manageBooks.jsx";
 import Dashboard from "./pages/admin/dashboard.jsx";
 import ManageUsers from "./pages/admin/manageUsers.jsx";
+
 import {callFetchAccount} from "./services/auth.jsx";
+import {getAccountAction} from "./redux/account/accountSlice.jsx";
 
 const AdminLayout = () => {
     return (
@@ -96,9 +97,23 @@ const LayoutThird = () => {
     )
 }
 
-
 export default function App() {
     const dispatch = useDispatch();
+    const user = useSelector(state => state.account.isAuthenticated);
+    const ProtectedRoute = ({ user, children }) => {
+        if (!user) {
+            return <Navigate to="/auth/" replace />;
+        }
+        return children;
+    };
+
+    const IsLogin = ({ user, children }) => {
+        if (user) {
+            return <Navigate to="/" replace />;
+        }
+        return children;
+    };
+
     const getAccount = async () => {
         const res = await callFetchAccount();
         if (res && res.data) {
@@ -110,67 +125,85 @@ export default function App() {
         getAccount();
     }, []);
 
-    const isAuthenticated = useSelector(state => state.account.isAuthenticated);
-
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <Layout/>,
+            element: <Layout />,
             errorElement: <div>404</div>,
             children: [
-                {index: true, element: <Home/>},
+                {index: true, element: <Home />},
                 {
                     path: ":id",
-                    element: <BookDetail/>
+                    element: <BookDetail />
                 },
             ],
         },
         {
-            path: "/admin/",
-            element: <AdminLayout/>,
+            path: "/admin",
+            element: <AdminLayout />,
+            errorElement: <div>404</div>,
             children: [
-                {index: true, element: <Dashboard/>},
+                {index: true, element: <Dashboard />},
                 {
                     path: 'user',
-                    element: <ManageUsers/>
+                    element:
+                        <ProtectedRoute user={user}>
+                            <ManageUsers />
+                        </ProtectedRoute>
                 },
                 {
                     path: 'book',
-                    element: <ManageBooks/>
+                    element:
+                        <ProtectedRoute user={user}>
+                            <ManageBooks />
+                        </ProtectedRoute>
                 }
             ]
         },
         {
-            path: '/auth/',
-            element: <LayoutSecond/>,
+            path: '/auth',
+            element: <LayoutSecond />,
+            errorElement: <div>404</div>,
             children: [
-                {index: true, element: <Login/>},
-                {
-                    path: "login",
-                    element: <Login/>,
-                },
+                {index: true,
+                    element:
+                        <IsLogin user={user}>
+                            <Login />
+                        </IsLogin>
+                    },
                 {
                     path: "register",
-                    element: <Register/>,
+                    element:
+                        <IsLogin user={user}>
+                            <Register />
+                        </IsLogin>
+                    ,
                 },
             ]
         },
         {
-            path: '/action/',
+            path: '/order',
             element: <LayoutThird/>,
+            errorElement: <div>404</div>,
             children: [
-                {index: true, element: <Order/>},
-                {
-                    path: "order",
-                    element: <Order/>
+                {index: true, element:
+                    <ProtectedRoute user={user}>
+                        <Order/>
+                    </ProtectedRoute>
                 },
                 {
                     path: 'checkout',
-                    element: <Checkout/>
+                    element:
+                        <ProtectedRoute user={user}>
+                            <Checkout/>
+                        </ProtectedRoute>
                 },
                 {
                     path: 'order-history',
-                    element: <OrderHistory/>
+                    element:
+                        <ProtectedRoute user={user}>
+                            <OrderHistory />
+                        </ProtectedRoute>
                 },
             ]
         }
