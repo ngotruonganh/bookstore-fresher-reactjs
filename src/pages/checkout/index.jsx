@@ -5,21 +5,25 @@ import {useEffect, useState} from "react";
 import {emptyCart} from "../../redux/order/orderSlice.jsx";
 import {useNavigate} from "react-router-dom";
 import TextArea from "antd/es/input/TextArea.js";
-import {checkout} from "../../services/user.jsx";
+import {checkout} from "../../services/book.jsx";
 
 const Checkout = () => {
-    const orderList = useSelector(state => state.order.cart);
-    const account = useSelector(state => state.account.user);
+    const [totalPrice, setTotalPrice] = useState(0);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [sum, setSum] = useState(0);
+    const orderList = useSelector(state => state.order.cart);
+    const account = useSelector(state => state.account.user);
+
+    useEffect(() => {
+        let sum = 0;
+        orderList.map(item => {
+            sum += item.quantity * item.detail.price;
+        })
+        setTotalPrice(sum);
+    }, []);
+
 
     const onCheckout = async (values) => {
-        let temp = 0;
-        orderList.map(item => {
-            temp += item.quantity * item.detail.price;
-        })
-        setSum(temp);
         const detailOrder = orderList.map(item => {
             return {
                 bookName: item.detail.mainText,
@@ -31,32 +35,19 @@ const Checkout = () => {
             name: values.name,
             address: values.address,
             phone: values.phone,
-            totalPrice: sum,
+            totalPrice: totalPrice,
             detail: detailOrder
         }
         const res = await checkout(data);
         if (res && res.data) {
             message.success('success');
             dispatch(emptyCart());
-            navigate('/');
+            navigate('/order/order-history');
         }
     };
     const onCheckoutFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     }
-    const [totalPrice, setTotalPrice] = useState(0);
-
-    useEffect(() => {
-        if (orderList && orderList.length > 0) {
-            let sum = 0;
-            orderList.map(item => {
-                sum += item.quantity * item.detail.price;
-            })
-            setTotalPrice(sum);
-        } else {
-            setTotalPrice(convertVND(0));
-        }
-    }, [orderList]);
     return (
         <>
             <Row align='middle' style={{marginTop: "10px", padding: '15px', backgroundColor: "white"}}>

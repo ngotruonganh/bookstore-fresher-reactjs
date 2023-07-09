@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Col, Pagination, Row, Tag} from "antd";
 import {convertVND} from "../../function/index.jsx";
-import {getHistoryOrder} from "../../services/user.jsx";
+import {getHistoryOrder} from "../../services/book.jsx";
 
 const OrderHistory = () => {
     const [order, setOrder] = useState([]);
@@ -37,9 +37,6 @@ const OrderHistory = () => {
                         </Col>
                         <Col>
                             <Tag color="success">
-                                Đơn hàng đã được giao thành công
-                            </Tag>
-                            <Tag color="error">
                                 COMPLETED
                             </Tag>
                         </Col>

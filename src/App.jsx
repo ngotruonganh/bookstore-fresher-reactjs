@@ -142,13 +142,15 @@ export default function App() {
         },
         {
             path: "/admin",
-            element:
-                <ProtectedRoute user={user}>
-                    <AdminLayout />
-                </ProtectedRoute>,
+            element: <AdminLayout />,
             errorElement: <div>404</div>,
             children: [
-                {index: true, element: <Dashboard />},
+                {
+                    index: true, element:
+                        <ProtectedRoute user={user}>
+                            <Dashboard />
+                        </ProtectedRoute>
+                },
                 {
                     path: 'user',
                     element:

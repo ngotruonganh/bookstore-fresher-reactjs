@@ -1,9 +1,10 @@
 import {Button, Col, Form, Input, message, Row, Typography} from 'antd';
 import {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {login} from "../../services/auth.jsx";
 import {loginAction} from "../../redux/account/accountSlice.jsx";
+import {addTempCartToCart, emptyCart, emptyTempCart} from "../../redux/order/orderSlice.jsx";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -23,8 +24,10 @@ const Login = () => {
         if (res?.data) {
             localStorage.setItem("access_token", res.data.data.access_token);
             dispatch(loginAction(res.data.data.user));
-            message.success("Login success");
+            dispatch(addTempCartToCart());
+            dispatch(emptyTempCart());
             navigate("/");
+            message.success("Login success");
         } else {
             message.error("Error");
         }

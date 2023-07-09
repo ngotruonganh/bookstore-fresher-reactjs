@@ -1,9 +1,9 @@
+import {Button, Col, InputNumber, Modal, Result, Row, Typography} from "antd";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Button, Col, InputNumber, Modal, Result, Row, Typography} from "antd";
+import {Link, useNavigate} from "react-router-dom";
 
 import {deleteItem, updateQuantity} from "../../redux/order/orderSlice.jsx";
-import {Link, useNavigate} from "react-router-dom";
 import {convertSlug, convertVND} from "../../function/index.jsx";
 
 const Order = () => {
@@ -21,8 +21,6 @@ const Order = () => {
                 sum += item.quantity * item.detail.price;
             })
             setTotalPrice(sum);
-        } else {
-            setTotalPrice(convertVND(0));
         }
     }, [orderList]);
 

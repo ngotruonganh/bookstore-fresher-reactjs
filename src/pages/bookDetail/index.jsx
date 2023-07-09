@@ -1,10 +1,10 @@
 import {Button, Col, Image, InputNumber, message, Row, Skeleton, Typography} from "antd";
 import {useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
-import {addToCart} from "../../redux/order/orderSlice.jsx";
+import {addToCart, addToTempCart} from "../../redux/order/orderSlice.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {convertVND} from "../../function/index.jsx";
-import {getBookById} from "../../services/user.jsx";
+import {getBookById} from "../../services/book.jsx";
 
 const BookDetail = () => {
     const location = useLocation();
@@ -13,23 +13,21 @@ const BookDetail = () => {
 
     let params = new URLSearchParams(location.search);
     const id = params?.get('id');
-    const isAuth = useSelector(state => state.account.isAuthenticated)
+
+    const isAuth = useSelector(state => state.account.isAuthenticated);
 
     const [bookDetail, setBookDetail] = useState([]);
     const [quantity, setQuantity] = useState(1);
 
-    const [loading, setLoading] = useState(false);
-
     useEffect(() => {
-        setLoading(true);
         getBookDetail();
-        setLoading(false);
     }, [])
 
     const getBookDetail = async () => {
         const res = await getBookById(id);
         if (res && res.data) {
             setBookDetail([res.data.data]);
+            console.log(bookDetail);
         }
     }
 
@@ -44,10 +42,11 @@ const BookDetail = () => {
 
     const handleAddToCart = (quantity, item) => {
         if (quantity > item.quantity) {
-            message.error("sold out");
+            message.error("Sold out");
             return;
         }
         if (!isAuth) {
+            dispatch(addToTempCart({_id: item._id, quantity, detail: item}));
             navigate('/auth');
             return;
         }
@@ -62,19 +61,25 @@ const BookDetail = () => {
     }
     return (
         <>
-            <Skeleton loading={loading} />
-            {bookDetail && bookDetail.length > 0 && bookDetail.map((item) => {
+            {bookDetail && bookDetail.length > 0 && bookDetail.map(item => {
                 return (
-                    <Row key={item._id} gutter={[8, 8]} justify="center" key={item._id}
-                         style={{backgroundColor: "white", padding: "20px 15px"}}>
+                    <Row
+                        key={item._id} gutter={[8, 8]} justify="center"
+                        style={{backgroundColor: "white", padding: "20px 15px"}}
+                    >
                         <Col xs={24} md={8}>
-                            <Image src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${item?.thumbnail}`}
-                                   style={{width: '300px'}}/>
+                            <Image
+                                src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${item.thumbnail}`}
+                                style={{width: '300px'}}
+                            />
                         </Col>
                         <Col xs={24} md={16}>
                             <Typography.Title level={3}>
                                 {item.mainText}
                             </Typography.Title>
+                            <Typography.Paragraph>
+                                Author: {item.author}
+                            </Typography.Paragraph>
                             <Typography.Paragraph>
                                 {item.sold} Sold
                             </Typography.Paragraph>
@@ -88,10 +93,19 @@ const BookDetail = () => {
                             </Typography.Title>
                             <div style={{margin: "20px 0"}}>
                                 Quantity: &nbsp;
-                                <Button onClick={() => handleQuantity('down')} disabled={quantity < 2}>-</Button>
+                                <Button
+                                    onClick={() => handleQuantity('down')}
+                                    disabled={quantity === 1}
+                                >
+                                    -
+                                </Button>
                                 <InputNumber min={1} max={item.quantity} value={quantity} onChange={onChange}/>
-                                <Button onClick={() => handleQuantity('up')}
-                                        disabled={quantity === item.quantity}>+</Button>
+                                <Button
+                                    onClick={() => handleQuantity('up')}
+                                    disabled={quantity === item.quantity}
+                                >
+                                    +
+                                </Button>
                             </div>
                             <div>
                                 {item.quantity} are available

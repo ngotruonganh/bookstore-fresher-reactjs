@@ -6,8 +6,9 @@ import SearchField from "../search/index.jsx";
 import {convertVND} from "../../function/index.jsx";
 
 const BottomHeaderWithCart = () => {
-    const order = useSelector(state => state.order.cart);
-    const count = order?.length;
+    const cart = useSelector(state => state.order.cart);
+    console.log(cart);
+    const count = cart?.length;
 
     const content = (
         <>
@@ -17,9 +18,14 @@ const BottomHeaderWithCart = () => {
                 </Row>
             ) : (
                 <>
-                    {order && order.length >= 0 && order.slice(0, 3).map(item => {
+                    {cart && cart.length > 0 && cart.slice(0, 3).map(item => {
                         return (
-                            <Row key={item._id} justify='space-between' align='middle' style={{maxWidth: '400px'}}>
+                            <Row
+                                key={item._id}
+                                justify='space-between'
+                                align='middle'
+                                style={{maxWidth: '400px'}}
+                            >
                                 <Col>
                                     <Image
                                         src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${item.detail.thumbnail}`}

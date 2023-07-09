@@ -3,6 +3,7 @@ import {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {logoutAction} from "../../redux/account/accountSlice.jsx";
+import {emptyCart} from "../../redux/order/orderSlice.jsx";
 
 const AccountOption = () => {
     const [open, setOpen] = useState(false);
@@ -15,6 +16,7 @@ const AccountOption = () => {
         localStorage.removeItem('access_token');
         message.success("Logout success");
         dispatch(logoutAction());
+        dispatch(emptyCart());
         navigate('/auth');
         setOpen(false);
     }
@@ -37,7 +39,7 @@ const AccountOption = () => {
                             <Divider/>
                             <Col span={24}>
                                 {token ? (
-                                        <Typography.Paragraph onClick={handleLogout} style={{color: "black"}}>Logout</Typography.Paragraph>
+                                        <Typography.Paragraph onClick={handleLogout} style={{cursor: 'pointer', color: "black"}}>Logout</Typography.Paragraph>
                                     ) :
                                     <Link to='/auth' style={{color: "black"}}>Login</Link>
                                 }
