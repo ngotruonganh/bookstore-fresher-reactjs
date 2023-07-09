@@ -1,4 +1,4 @@
-import {Button, Col, Form, Input, message, Row, Typography} from "antd";
+import {Button, Col, Form, Input, InputNumber, message, Row, Typography} from "antd";
 import {convertVND} from "../../function/index.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
@@ -126,7 +126,7 @@ const Checkout = () => {
                                 },
                             ]}
                         >
-                            <Input/>
+                            <Input />
                         </Form.Item>
                         <Form.Item
                             label="Address"

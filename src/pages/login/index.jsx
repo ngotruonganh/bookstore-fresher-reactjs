@@ -11,13 +11,6 @@ const Login = () => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        const access_token = localStorage.getItem("access_token");
-        if (access_token) {
-            navigate("/");
-        }
-    }, []);
-
     const onFinish = async (values) => {
         setLoading(true);
         let res = await login(values.email, values.password);
