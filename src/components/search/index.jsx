@@ -3,7 +3,6 @@ import {useDispatch} from "react-redux";
 import {searchAction} from "../../redux/search/searchSlice.jsx";
 
 const {Search} = Input;
-
 const SearchField = () => {
     const dispatch = useDispatch();
     const onSearch = (value) => {

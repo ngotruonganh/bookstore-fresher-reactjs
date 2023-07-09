@@ -4,9 +4,8 @@ import {createBrowserRouter, Navigate, Outlet, RouterProvider} from "react-route
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
-import Header from "./components/header";
-import BottomHeader from "./components/header/bottomHeader.jsx";
 import TopHeader from "./components/header/topHeader.jsx";
+import BottomHeaderNoCart from "./components/header/bottomHeaderNoCart.jsx";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Admin from "./pages/admin";
@@ -21,22 +20,23 @@ import ManageUsers from "./pages/admin/manageUsers.jsx";
 
 import {callFetchAccount} from "./services/auth.jsx";
 import {getAccountAction} from "./redux/account/accountSlice.jsx";
+import {BottomHeaderWithCart} from "./components/header/index.jsx";
 
 const AdminLayout = () => {
     return (
         <>
-            <Row justify="center" style={{backgroundColor: "#f53d2d"}}>
-                <Col xs={23} xl={18}>
-                    <TopHeader/>
-                    <BottomHeader />
+            <Row justify="center" className='header'>
+                <Col xs={23} xl={20}>
+                    <TopHeader />
+                    <BottomHeaderNoCart />
                 </Col>
             </Row>
             <Row gutter={[16, 16]} justify="center" style={{marginTop: "30px"}}>
                 <Col span={5}>
-                    <Admin/>
+                    <Admin />
                 </Col>
-                <Col span={17}>
-                    <Outlet/>
+                <Col span={18}>
+                    <Outlet />
                 </Col>
             </Row>
         </>
@@ -46,14 +46,15 @@ const AdminLayout = () => {
 const MainLayout = () => {
     return (
         <>
-            <Row justify="center" style={{backgroundColor: "#f53d2d"}}>
-                <Col xs={23} xl={18}>
-                    <Header/>
+            <Row justify="center" className='header'>
+                <Col xs={23} xl={20}>
+                    <TopHeader />
+                    <BottomHeaderWithCart />
                 </Col>
             </Row>
             <Row justify="center" style={{marginTop: "30px"}}>
-                <Col xs={23} xl={18}>
-                    <Outlet/>
+                <Col xs={23} xl={20}>
+                    <Outlet />
                 </Col>
             </Row>
             {/*<Row justify="center" style={{backgroundColor: "#f53d2d"}}>*/}
@@ -68,8 +69,8 @@ const MainLayout = () => {
 const AuthLayout = () => {
     return (
         <Row justify="center" align='middle' style={{height: '100vh'}}>
-            <Col xs={23} md={20} xl={18}>
-                <Outlet/>
+            <Col xs={23} xl={20}>
+                <Outlet />
             </Col>
         </Row>
     )
@@ -78,15 +79,15 @@ const AuthLayout = () => {
 const OrderLayout = () => {
     return (
         <>
-            <Row justify="center" style={{backgroundColor: "#f53d2d"}}>
-                <Col xs={23} xl={18}>
-                    <TopHeader/>
-                    <BottomHeader/>
+            <Row justify="center" className='header'>
+                <Col xs={23} xl={20}>
+                    <TopHeader />
+                    <BottomHeaderNoCart />
                 </Col>
             </Row>
             <Row justify="center" style={{marginTop: "30px"}}>
-                <Col xs={23} xl={18}>
-                    <Outlet/>
+                <Col xs={23} xl={20}>
+                    <Outlet />
                 </Col>
             </Row>
             {/*<Row justify="center" style={{backgroundColor: "#f53d2d"}}>*/}
@@ -192,14 +193,14 @@ export default function App() {
             children: [
                 {index: true, element:
                     <ProtectedRoute user={user}>
-                        <Order/>
+                        <Order />
                     </ProtectedRoute>
                 },
                 {
                     path: 'checkout',
                     element:
                         <ProtectedRoute user={user}>
-                            <Checkout/>
+                            <Checkout />
                         </ProtectedRoute>
                 },
                 {
@@ -216,7 +217,7 @@ export default function App() {
     return (
         <>
             {/*{isAuthenticated ? <RouterProvider router={router} /> : <Loading />*/}
-            <RouterProvider router={router}/>
+            <RouterProvider router={router} />
         </>
     );
 }

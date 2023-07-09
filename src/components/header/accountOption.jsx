@@ -1,8 +1,7 @@
-import {Col, Divider, message, Popover, Row} from "antd";
-import {Link, useNavigate} from "react-router-dom";
+import {Col, Divider, message, Popover, Row, Typography} from "antd";
 import {useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {logout} from "../../services/auth.jsx";
 import {logoutAction} from "../../redux/account/accountSlice.jsx";
 
 const AccountOption = () => {
@@ -38,7 +37,7 @@ const AccountOption = () => {
                             <Divider/>
                             <Col span={24}>
                                 {token ? (
-                                        <Link onClick={handleLogout} style={{color: "black"}}>Logout</Link>
+                                        <Typography.Paragraph onClick={handleLogout} style={{color: "black"}}>Logout</Typography.Paragraph>
                                     ) :
                                     <Link to='/auth' style={{color: "black"}}>Login</Link>
                                 }

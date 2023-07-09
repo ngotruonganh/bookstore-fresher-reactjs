@@ -1,5 +1,7 @@
 @import './setting/color.scss';
+
 @import './components/filter.scss';
+@import "./components/header.scss";
 
 body {
   background-color: $secondary-color;

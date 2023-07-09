@@ -5,5 +5,4 @@ const Admin = () => {
         <MenuAdmin/>
     );
 };
-
 export default Admin;

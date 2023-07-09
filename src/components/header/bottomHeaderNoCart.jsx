@@ -1,7 +1,7 @@
 import {Col, Row, Typography} from "antd";
 import {Link} from "react-router-dom";
 
-const BottomHeader = () => {
+const BottomHeaderNoCart = () => {
     return (
         <Row justify="space-between" align="middle" style={{padding: "5px 0"}}>
             <Col span={24}>
@@ -15,4 +15,4 @@ const BottomHeader = () => {
     );
 };
 
-export default BottomHeader;
+export default BottomHeaderNoCart;

@@ -6,7 +6,6 @@ import {getDashboard} from "../../services/useServer.jsx";
 import {getAllBooks} from "../../services/book.jsx";
 
 const formatter = (value) => <CountUp end={value} separator=","/>;
-
 const MyComponent = () => {
     const [allUser, setAllUser] = useState(0);
     const [allOrder, setAllOrder] = useState(0);

@@ -1,6 +1,6 @@
 import {Menu} from 'antd';
-import {Link} from "react-router-dom";
 import {useState} from "react";
+import {Link} from "react-router-dom";
 
 const items = [
     {
@@ -29,7 +29,7 @@ const MenuAdmin = () => {
             style={{
                 width: '100%',
             }}
-            defaultSelectedKeys={['dashboard']}
+            defaultSelectedKeys={current}
             mode="inline"
             items={items}
         />
