@@ -53,10 +53,12 @@ const MyComponent = () => {
                 {topBookSale.slice(0, 3).map(item => {
                     return (
                         <Col key={item._id}>
-                            <Image src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${item.thumbnail}`}
-                                   style={{width: '150px'}}/>
+                            <Image
+                                src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${item.thumbnail}`}
+                               style={{width: '150px'}}
+                            />
                             <Typography.Paragraph>{item.mainText}</Typography.Paragraph>
-                            <Typography.Paragraph>{item.sold}</Typography.Paragraph>
+                            <Typography.Paragraph>{item.sold} sold</Typography.Paragraph>
                             <Typography.Paragraph style={{color: 'red'}}>{convertVND(item.price)}</Typography.Paragraph>
                         </Col>
                     )

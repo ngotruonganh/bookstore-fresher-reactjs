@@ -1,11 +1,19 @@
 import {Col, Row} from "antd";
 import './styles/global.scss';
-import {createBrowserRouter, Navigate, Outlet, RouterProvider} from "react-router-dom";
 import {useEffect} from "react";
+import {
+    createBrowserRouter,
+    Navigate,
+    Outlet,
+    RouterProvider,
+} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
-import TopHeader from "./components/header/topHeader.jsx";
-import BottomHeaderNoCart from "./components/header/bottomHeaderNoCart.jsx";
+import {
+    TopHeader,
+    BottomHeaderWithCart,
+    BottomHeaderNoCart
+} from "./components/header";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Admin from "./pages/admin";
@@ -20,7 +28,6 @@ import ManageUsers from "./pages/admin/manageUsers.jsx";
 
 import {callFetchAccount} from "./services/auth.jsx";
 import {getAccountAction} from "./redux/account/accountSlice.jsx";
-import {BottomHeaderWithCart} from "./components/header/index.jsx";
 
 const AdminLayout = () => {
     return (

@@ -127,8 +127,12 @@ const ManageUser = () => {
                 {loading ? <Loading/> : (<>
                     <Table columns={columns} dataSource={data} pagination={false}
                            style={{overflowX: "scroll"}}/>
-                    <Pagination style={{textAlign: "end", marginTop: "20px"}}
-                                defaultCurrent={1} pageSize={pageSize} total={total} onChange={onChange}
+                    <Pagination
+                        style={{textAlign: "end", marginTop: "20px"}}
+                        defaultCurrent={currentPage}
+                        pageSize={pageSize}
+                        total={total}
+                        onChange={onChange}
                     />
                 </>)}
             </Col>

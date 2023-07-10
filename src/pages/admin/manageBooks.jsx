@@ -4,17 +4,55 @@ import {useEffect, useState} from "react";
 import Loading from "../../components/loading/index.jsx";
 import DetailBookAdmin from "../../components/detailBook/index.jsx";
 import {deleteBook, getAllBooks} from "../../services/book.jsx";
+import BookModalCreate from "./modal.jsx";
 
 const ManageBooks = () => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const [total, setTotal] = useState(1);
-    const [data, setData] = useState([]);
-    const [mainText, setMainText] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [idDelete, setIdDelete] = useState('');
-    const [dataDetail, setDataDetail] = useState([]);
-    const [open, setOpen] = useState(false);
+    // modal view detail book
+    const [openViewDetail, setOpenViewDetail] = useState(false);
 
+    // modal create book
+    const [openModalCreate, setOpenModalCreate] = useState(false);
+
+    // paginate
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 5;
+    const [total, setTotal] = useState(1);
+
+    // data
+    const [data, setData] = useState([]);
+    const [dataDetail, setDataDetail] = useState([]);
+
+    // filter
+    const [mainText, setMainText] = useState("");
+
+    // crud
+    const [idDelete, setIdDelete] = useState('');
+
+    const [loading, setLoading] = useState(false);
+
+    const showModalCreateBook = () => {
+        setOpenModalCreate(true);
+    };
+
+    const onCloseModalCreate = () => {
+        setOpenModalCreate(false);
+    }
+
+    // table
+    const dataSource =  data.map(item => {
+        return {
+            key: item._id,
+            _id: item._id,
+            mainText: item.mainText,
+            quantity: item.quantity,
+            sold: item.sold,
+            createdAt: item.createdAt,
+            author: item.author,
+            category: item.category,
+            price: item.price,
+            updatedAt: item.updatedAt,
+        }
+    });
     const columns = [
         {
             title: 'Id',
@@ -30,6 +68,8 @@ const ManageBooks = () => {
         },
         {
             title: 'Title', dataIndex: 'mainText', key: 'MainText',
+            defaultSortOrder: 'descend',
+            // sorter: (a, b) => a.age - b.age,
         },
         {
             title: 'Price', dataIndex: 'price', key: 'price',
@@ -50,7 +90,7 @@ const ManageBooks = () => {
                     <Popconfirm
                         title="Delete the task"
                         description="Are you sure to delete this task?"
-                        onConfirm={confirm}
+                        onConfirm={confirmDeleteBook}
                         // onCancel={cancel}
                         okText="Yes"
                         cancelText="No"
@@ -71,15 +111,15 @@ const ManageBooks = () => {
 
     const handleViewDetail = (item) => {
         setDataDetail(item);
-        setOpen(true);
+        setOpenViewDetail(true);
     }
 
-    const onClose = () => {
-        setOpen(false);
+    const onCloseViewDetail = () => {
+        setOpenViewDetail(false);
     }
 
     const getAllBookAdmin = async () => {
-        const query = `/api/v1/book?current=${currentPage}&pageSize=5&sort=-createAt&mainText=/${mainText}/i`;
+        const query = `/api/v1/book?current=${currentPage}&pageSize=${pageSize}&sort=-createdAt&mainText=/${mainText}/i`;
         const res = await getAllBooks(query);
         if (res && res.data) {
             setCurrentPage(res.data.data.meta.current);
@@ -88,7 +128,7 @@ const ManageBooks = () => {
         }
     }
 
-    const confirm = async () => {
+    const confirmDeleteBook = async () => {
         await deleteBook(idDelete);
     }
 
@@ -109,6 +149,22 @@ const ManageBooks = () => {
         setCurrentPage(1);
         setLoading(false);
     }
+    const [openAdd, setOpenAdd] = useState(false);
+    const [confirmLoading, setConfirmLoading] = useState(false);
+    const showModal = () => {
+        setOpenAdd(true);
+    };
+    const handleOk = () => {
+        setConfirmLoading(true);
+        setTimeout(() => {
+            setOpenAdd(false);
+            setConfirmLoading(false);
+        }, 2000);
+    };
+    const handleCancel = () => {
+        console.log('Clicked cancel button');
+        setOpenAdd(false);
+    };
     return (
         <>
             <Col>
@@ -117,8 +173,11 @@ const ManageBooks = () => {
                         <Input placeholder="Book name" onChange={handleChangeMainText}/>
                     </Col>
                     <Col xs={24} md={4}>
-                        <Button type="primary" onClick={handleSearch}
-                                disabled={!mainText ? true : false}>
+                        <Button
+                            type="primary"
+                            onClick={handleSearch}
+                            disabled={!mainText ? true : false}
+                        >
                             Search
                         </Button>
                     </Col>
@@ -128,7 +187,7 @@ const ManageBooks = () => {
                 </Typography.Paragraph>
                 <Row gutter={[8, 8]} justify={"end"}>
                     <Col>
-                        <Button type="primary">Add</Button>
+                        <Button type="primary" onClick={showModalCreateBook}>Add</Button>
                     </Col>
                     <Col>
                         <Button type="primary">Import</Button>
@@ -140,14 +199,34 @@ const ManageBooks = () => {
                         <Button type="primary">f5</Button>
                     </Col>
                 </Row>
-                {loading ? <Loading/> : (<>
-                    <Table columns={columns} dataSource={data} pagination={false}/>
-                    <Pagination style={{textAlign: "end", marginTop: "20px"}}
-                                defaultCurrent={1} pageSize={5} total={total} onChange={onChange}
-                    />
-                </>)}
+                {loading ?
+                    <Loading/> : (
+                        <>
+                            <Table
+                                columns={columns}
+                                dataSource={dataSource}
+                                pagination={false}
+                            />
+                            <Pagination
+                                style={{textAlign: "end", marginTop: "20px"}}
+                                defaultCurrent={currentPage}
+                                pageSize={pageSize}
+                                total={total}
+                                onChange={onChange}
+                            />
+                        </>
+                    )
+                }
             </Col>
-            <DetailBookAdmin open={open} item={dataDetail} onClose={onClose}/>
+            <DetailBookAdmin
+                open={openViewDetail}
+                item={dataDetail}
+                onClose={onCloseViewDetail}
+            />
+            <BookModalCreate
+                openModalCreate={openModalCreate}
+                onCloseModalCreate={onCloseModalCreate}
+            />
         </>
     );
 }

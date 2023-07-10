@@ -20,7 +20,6 @@ const items = [
 const MenuAdmin = () => {
     const [current, setCurrent] = useState('dashboard');
     const onClick = (e) => {
-        console.log('click ', e);
         setCurrent(e.key);
     };
     return (

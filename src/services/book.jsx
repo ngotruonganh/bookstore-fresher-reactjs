@@ -20,8 +20,20 @@ const getHistoryOrder = (query) => {
     return axios.get(query);
 }
 
+const createBook = (thumbnail, slider, mainText, author, price, sold, quantity, category) => {
+    return axios.post('/api/v1/book', {thumbnail, slider, mainText, author, price, sold, quantity, category} );
+}
+
 const deleteBook = (id) => {
     return axios.delete(`/api/v1/book/${id}`);
 }
 
-export {getAllBooks, deleteBook, getBookById, getCategories, getHistoryOrder, checkout}
+export {
+    getAllBooks,
+    deleteBook,
+    getBookById,
+    getCategories,
+    getHistoryOrder,
+    checkout,
+    createBook,
+}
