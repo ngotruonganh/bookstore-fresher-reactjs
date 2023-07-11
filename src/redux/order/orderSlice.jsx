@@ -3,6 +3,7 @@ import {message} from "antd";
 
 const initialState = {
     cart: [],
+    cartBuyNow: [],
     tempCart: [],
 };
 
@@ -38,14 +39,14 @@ export const orderSlice = createSlice({
         addTempCartToCart: (state, action) => {
             state.cart = state.tempCart;
         },
+        addTempCartToBuyNow: (state, action) => {
+            state.cartBuyNow = state.tempCart;
+        },
         emptyCart: (state, action) => {
             state.cart = [];
         },
         emptyTempCart: (state , action) => {
             state.tempCart = [];
-        },
-        deleteItem: (state, action) => {
-            state.cart = state.cart.filter(c => c._id !== action.payload._id);
         },
         updateQuantity: (state, action) => {
             const cart = state.cart;
@@ -56,17 +57,21 @@ export const orderSlice = createSlice({
             }
             state.cart = cart;
         },
+        deleteItem: (state, action) => {
+            state.cart = state.cart.filter(c => c._id !== action.payload._id);
+        },
     },
 });
 
 export const {
     addToCart,
-    deleteItem,
-    updateQuantity,
-    emptyCart,
     addToTempCart,
     addTempCartToCart,
+    addTempCartToBuyNow,
+    emptyCart,
     emptyTempCart,
+    updateQuantity,
+    deleteItem,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

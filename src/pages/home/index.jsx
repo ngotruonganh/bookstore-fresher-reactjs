@@ -19,7 +19,7 @@ const Home = () => {
     const [filerCategories, setFilterCategories] = useState([]);
     // pagination
     const [current, setCurrent] = useState(1);
-    const [pageSize, setPageSize] = useState(6);
+    const pageSize = 4;
     const [total, setTotal] = useState(0);
     // sort
     const [sort, setSort] = useState('sort=-sold');
@@ -110,9 +110,6 @@ const Home = () => {
 
     const onClose = () => {
         setOpen(false);
-    };
-    const handleChange = (value) => {
-        setSort(value);
     };
     return (
         <>

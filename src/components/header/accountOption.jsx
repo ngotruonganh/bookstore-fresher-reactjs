@@ -8,8 +8,8 @@ import {emptyCart} from "../../redux/order/orderSlice.jsx";
 const AccountOption = () => {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
+    const isAuth = useSelector(state => state.account.isAuthenticated);
     const user = useSelector(state => state.account.user);
-    const token = localStorage.getItem('access_token');
     const dispatch = useDispatch();
     const handleLogout = async () => {
         // await logout();
@@ -25,7 +25,7 @@ const AccountOption = () => {
     };
     return (
         <>
-            {token ? (
+            {isAuth ? (
                 <Popover
                     content={
                         <Row>
@@ -38,7 +38,7 @@ const AccountOption = () => {
                             </Col>
                             <Divider/>
                             <Col span={24}>
-                                {token ? (
+                                {user ? (
                                         <Typography.Paragraph onClick={handleLogout} style={{cursor: 'pointer', color: "black"}}>Logout</Typography.Paragraph>
                                     ) :
                                     <Link to='/auth' style={{color: "black"}}>Login</Link>

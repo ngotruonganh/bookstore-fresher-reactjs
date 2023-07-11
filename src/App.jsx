@@ -28,6 +28,7 @@ import ManageUsers from "./pages/admin/manageUsers.jsx";
 
 import {callFetchAccount} from "./services/auth.jsx";
 import {getAccountAction} from "./redux/account/accountSlice.jsx";
+import BuyNow from "./pages/buyNow/index.jsx";
 
 const AdminLayout = () => {
     return (
@@ -204,6 +205,13 @@ export default function App() {
                     <ProtectedRoute user={user}>
                         <Order />
                     </ProtectedRoute>
+                },
+                {
+                    path: 'buy-now',
+                    element:
+                        <ProtectedRoute user={user}>
+                            <BuyNow />
+                        </ProtectedRoute>
                 },
                 {
                     path: 'checkout',

@@ -3,14 +3,15 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
 
-import {deleteItem, updateQuantity} from "../../redux/order/orderSlice.jsx";
+import {deleteItem, emptyCart, updateQuantity} from "../../redux/order/orderSlice.jsx";
 import {convertSlug, convertVND} from "../../function/index.jsx";
 
 const Order = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const orderList = useSelector(state => state.order.cart);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalDeleteItem, setModalDeleteItem] = useState(false);
+    const [modalDeleteAll, setModalDeleteAll] = useState(false);
     const [deleteId, setDeleteId] = useState('');
     const [totalPrice, setTotalPrice] = useState(0);
 
@@ -26,17 +27,30 @@ const Order = () => {
 
     const showModal = (id) => {
         setDeleteId(id);
-        setIsModalOpen(true);
+        setModalDeleteItem(true);
     };
+
+    const showModalDeleteAll = () => {
+        setModalDeleteAll(true);
+    }
 
     const handleOk = async () => {
         await dispatch(deleteItem(deleteId));
-        setIsModalOpen(false);
+        setModalDeleteItem(false);
     };
+
+    const handleDeleteAll = () => {
+        dispatch(emptyCart());
+        setModalDeleteAll(false);
+    }
+
+    const handleCancelDeleteAll = () => {
+        setModalDeleteAll(false);
+    }
 
     const handleCancel = () => {
         setDeleteId('');
-        setIsModalOpen(false);
+        setModalDeleteItem(false);
     };
 
     const onChange = (value, item) => {
@@ -50,6 +64,7 @@ const Order = () => {
         const slug = convertSlug(book.mainText);
         navigate(`/${slug}?id=${book._id}`);
     }
+
     const handleCheckOut = () => {
         navigate('/order/checkout');
     }
@@ -83,14 +98,21 @@ const Order = () => {
                         <Col xs={14} xl={6} style={{textAlign: "end"}}>
                             Total Price
                         </Col>
-                        <Col xs={24} xl={3} style={{textAlign: 'center'}}>
+                        <Col xs={24} xl={3} style={{textAlign: 'end'}}>
                             Actions
+                        </Col>
+                    </Row>
+                    <Row justify='end' style={{padding: '5px'}}>
+                        <Col>
+                            <Typography.Paragraph onClick={showModalDeleteAll}>
+                                Delete All
+                            </Typography.Paragraph>
                         </Col>
                     </Row>
                     {orderList && orderList.length > 0 && orderList.map((item) => {
                         return (
                             <Row key={item._id} align='middle'
-                                 style={{marginTop: "10px", padding: '10px', backgroundColor: "white"}}>
+                                 style={{marginTop: "10px", padding: '0 20px', backgroundColor: "white"}}>
                                 <Col xs={14} xl={5} style={{textAlign: "start"}}>
                                     <img onClick={() => handleViewDetail(item)}
                                          src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${item?.detail?.thumbnail}`}
@@ -104,14 +126,20 @@ const Order = () => {
                                 </Col>
                                 <Col xs={10} xl={6} style={{textAlign: "center"}}>
                                     <InputNumber defaultValue={item.quantity}
-                                                 onChange={(value) => onChange(value, item)} min={1}
-                                                 max={item.detail.quantity}/>
+                                                 onChange={(value) => onChange(value, item)}
+                                                 min={1}
+                                                 max={item.detail.quantity}
+                                    />
                                 </Col>
                                 <Col xs={14} xl={6} style={{color: 'red', textAlign: 'end'}}>
                                     {convertVND(item.quantity * item.detail.price)}
                                 </Col>
-                                <Col xs={24} xl={3} style={{textAlign: 'center'}}>
-                                    <Typography.Paragraph onClick={() => showModal(item)}>Delete</Typography.Paragraph>
+                                <Col xs={24} xl={3} style={{textAlign: 'end'}}>
+                                    <Typography.Paragraph
+                                        onClick={() => showModal(item)}
+                                    >
+                                        Delete
+                                    </Typography.Paragraph>
                                 </Col>
                             </Row>
                         )
@@ -123,8 +151,21 @@ const Order = () => {
                             Check Out
                         </Button>
                     </div>
-                    <Modal title="Detele" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                    <Modal
+                        title="Detele"
+                        open={modalDeleteItem}
+                        onOk={handleOk}
+                        onCancel={handleCancel}
+                    >
                         Sure
+                    </Modal>
+                    <Modal
+                        title='Delete all product'
+                        open={modalDeleteAll}
+                        onOk={handleDeleteAll}
+                        onCancel={handleCancelDeleteAll}
+                    >
+                        Delete all your cart
                     </Modal>
                 </>
             )}

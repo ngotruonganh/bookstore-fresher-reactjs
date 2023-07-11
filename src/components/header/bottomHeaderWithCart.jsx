@@ -7,7 +7,6 @@ import {convertVND} from "../../function/index.jsx";
 
 const BottomHeaderWithCart = () => {
     const cart = useSelector(state => state.order.cart);
-    console.log(cart);
     const count = cart?.length;
 
     const content = (
