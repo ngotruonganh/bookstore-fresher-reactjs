@@ -20,6 +20,7 @@ const Login = () => {
             dispatch(loginAction(res.data.data.user));
             dispatch(addTempCartToCart());
             message.success('Login success');
+            navigate('/');
         } else {
             message.error("Login failed");
         }
