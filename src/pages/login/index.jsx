@@ -19,8 +19,8 @@ const Login = () => {
             localStorage.setItem('access_token', res.data.data.access_token);
             dispatch(loginAction(res.data.data.user));
             dispatch(addTempCartToCart());
-            message.success('Login success');
             navigate('/');
+            message.success('Login success');
         } else {
             message.error("Login failed");
         }
