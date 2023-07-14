@@ -3,7 +3,6 @@ import {DownOutlined, FilterOutlined, UnorderedListOutlined} from "@ant-design/i
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import ProductItem from "../../components/productItem/index.jsx";
-import PaginationComponent from "../../components/pagination/index.jsx";
 import {convertSlug} from "../../function/index.jsx";
 import {getAllBooks, getCategories} from "../../services/book.jsx";
 import {useSelector} from "react-redux";
@@ -281,8 +280,12 @@ const Home = () => {
                     {/*paginate*/}
                     <Row justify="center" style={{margin: "20px 0"}}>
                         <Col>
-                            <PaginationComponent current={current} pageSize={pageSize} total={total}
-                                                 onChange={onChange}/>
+                            <Pagination
+                                current={current}
+                                pageSize={pageSize}
+                                total={total}
+                                onChange={onChange}
+                            />
                         </Col>
                     </Row>
                 </Col>

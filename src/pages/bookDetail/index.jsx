@@ -133,11 +133,20 @@ const BookDetail = () => {
                                         {item.quantity} are available
                                     </div>
                                     <div style={{marginTop: "25px"}}>
-                                        <Button style={{marginRight: "15px"}} danger
-                                                onClick={() => handleAddToCart(quantity, item)}>
+                                        <Button
+                                            danger
+                                            style={{marginRight: "15px"}}
+                                            onClick={() => handleAddToCart(quantity, item)}
+                                        >
                                             Add To Cart
                                         </Button>
-                                        <Button type='primary' danger onClick={() => handleBuyNow(quantity, item)}>Buy Now</Button>
+                                        <Button
+                                            type='primary'
+                                            danger
+                                            onClick={() => handleBuyNow(quantity, item)}
+                                        >
+                                            Buy Now
+                                        </Button>
                                     </div>
                                 </Col>
                             </Row>

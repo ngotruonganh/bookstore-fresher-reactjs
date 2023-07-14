@@ -9,7 +9,11 @@ const SearchField = () => {
         dispatch(searchAction(value));
     }
     return (
-        <Search placeholder="Search book name" onSearch={onSearch} style={{width: "100%", padding: "10px"}} />
+        <Search
+            placeholder="Search book name"
+            onSearch={onSearch}
+            style={{width: "100%", padding: "10px"}}
+        />
     );
 };
 

@@ -5,6 +5,7 @@ import {Link, useNavigate} from "react-router-dom";
 
 import {deleteItem, emptyCart, updateQuantity} from "../../redux/order/orderSlice.jsx";
 import {convertSlug, convertVND} from "../../function/index.jsx";
+import {DeleteOutlined} from "@ant-design/icons";
 
 const Order = () => {
     const dispatch = useDispatch();
@@ -137,8 +138,9 @@ const Order = () => {
                                 <Col xs={24} xl={3} style={{textAlign: 'end'}}>
                                     <Typography.Paragraph
                                         onClick={() => showModal(item)}
+                                        style={{cursor: 'pointer'}}
                                     >
-                                        Delete
+                                        <DeleteOutlined style={{color: "red"}}/>
                                     </Typography.Paragraph>
                                 </Col>
                             </Row>

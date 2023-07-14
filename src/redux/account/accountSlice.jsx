@@ -20,7 +20,7 @@ export const accountSlice = createSlice({
             state.isAuthenticated = true;
             state.user = action.payload;
         },
-        getAccountAction: (state, action) => {
+        getLoginAction: (state, action) => {
             state.isAuthenticated = true;
             state.user = action.payload;
         },
@@ -40,7 +40,7 @@ export const accountSlice = createSlice({
 
 export const {
     loginAction,
-    getAccountAction,
+    getLoginAction,
     logoutAction,
 } = accountSlice.actions;
 

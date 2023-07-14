@@ -8,27 +8,73 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-
 import {
     TopHeader,
     BottomHeaderWithCart,
     BottomHeaderNoCart
 } from "./components/header";
+import ProtectedRoute from "./components/protectedRoute/index.jsx";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Admin from "./pages/admin";
+import Dashboard from "./pages/admin/dashboard.jsx";
+import ManageUsers from "./pages/admin/manageUsers.jsx";
+import ManageBooks from "./pages/admin/manageBooks.jsx";
 import Home from "./pages/home";
 import BookDetail from "./pages/bookDetail"
 import Order from "./pages/order/index.jsx";
-import Checkout from "./pages/checkout/index.jsx";
 import OrderHistory from "./pages/orderHistory/index.jsx";
-import ManageBooks from "./pages/admin/manageBooks.jsx";
-import Dashboard from "./pages/admin/dashboard.jsx";
-import ManageUsers from "./pages/admin/manageUsers.jsx";
+import Checkout from "./pages/checkout/index.jsx";
+import NotFound from "./pages/notFound/index.jsx";
 
 import {callFetchAccount} from "./services/auth.jsx";
-import {getAccountAction} from "./redux/account/accountSlice.jsx";
-import BuyNow from "./pages/buyNow/index.jsx";
+import {getLoginAction, loginAction} from "./redux/account/accountSlice.jsx";
+
+const MainLayout = () => {
+    return (
+        <>
+            <Row justify="center" className='header'>
+                <Col xs={23} xl={20}>
+                    <TopHeader />
+                    <BottomHeaderWithCart />
+                </Col>
+            </Row>
+            <Row justify="center" style={{marginTop: "30px"}}>
+                <Col xs={23} xl={20}>
+                    <Outlet />
+                </Col>
+            </Row>
+        </>
+    )
+}
+
+const OrderLayout = () => {
+    return (
+        <>
+            <Row justify="center" className='header'>
+                <Col xs={23} xl={20}>
+                    <TopHeader />
+                    <BottomHeaderNoCart />
+                </Col>
+            </Row>
+            <Row justify="center" style={{marginTop: "30px"}}>
+                <Col xs={23} xl={20}>
+                    <Outlet />
+                </Col>
+            </Row>
+        </>
+    )
+}
+
+const AuthLayout = () => {
+    return (
+        <Row justify="center" align='middle' style={{height: '100vh'}}>
+            <Col xs={23} xl={20}>
+                <Outlet />
+            </Col>
+        </Row>
+    )
+}
 
 const AdminLayout = () => {
     return (
@@ -51,95 +97,37 @@ const AdminLayout = () => {
     )
 }
 
-const MainLayout = () => {
-    return (
-        <>
-            <Row justify="center" className='header'>
-                <Col xs={23} xl={20}>
-                    <TopHeader />
-                    <BottomHeaderWithCart />
-                </Col>
-            </Row>
-            <Row justify="center" style={{marginTop: "30px"}}>
-                <Col xs={23} xl={20}>
-                    <Outlet />
-                </Col>
-            </Row>
-            {/*<Row justify="center" style={{backgroundColor: "#f53d2d"}}>*/}
-            {/*    <Col xs={23} xl={18}>*/}
-            {/*        <Footer />*/}
-            {/*    </Col>*/}
-            {/*</Row>*/}
-        </>
-    )
-}
-
-const AuthLayout = () => {
-    return (
-        <Row justify="center" align='middle' style={{height: '100vh'}}>
-            <Col xs={23} xl={20}>
-                <Outlet />
-            </Col>
-        </Row>
-    )
-}
-
-const OrderLayout = () => {
-    return (
-        <>
-            <Row justify="center" className='header'>
-                <Col xs={23} xl={20}>
-                    <TopHeader />
-                    <BottomHeaderNoCart />
-                </Col>
-            </Row>
-            <Row justify="center" style={{marginTop: "30px"}}>
-                <Col xs={23} xl={20}>
-                    <Outlet />
-                </Col>
-            </Row>
-            {/*<Row justify="center" style={{backgroundColor: "#f53d2d"}}>*/}
-            {/*    <Col xs={23} xl={18}>*/}
-            {/*        <Footer />*/}
-            {/*    </Col>*/}
-            {/*</Row>*/}
-        </>
-    )
-}
-
 export default function App() {
     const dispatch = useDispatch();
-    const user = useSelector(state => state.account.isAuthenticated);
-    const ProtectedRoute = ({ user, children }) => {
-        if (!user) {
-            return <Navigate to="/auth/" replace />;
-        }
-        return children;
-    }
+    const orderList = useSelector(state => state.order.cart);
+    const buyNowItem = useSelector(state => state.order.cartBuyNow);
 
-    const IsLogin = ({ user, children }) => {
-        if (user) {
-            return <Navigate to="/" replace />;
-        }
-        return children;
-    }
-
-    const getAccount = async () => {
+    const loginAccount = async () => {
         const res = await callFetchAccount();
         if (res && res.data) {
-            dispatch(getAccountAction(res.data.data.user));
+            dispatch(getLoginAction(res.data.data.user));
         }
     }
+    const user = useSelector(state => state.account.isAuthenticated);
 
     useEffect(() => {
-        getAccount();
-    }, []);
+        loginAccount();
+        console.log("effe", user);
+    }, [user]);
+
+    const IsLogin = ({children}) => {
+        const user = useSelector(state => state.account.isAuthenticated);
+        if (!user) {
+            return children;
+        }
+        return <Navigate to="/" replace />;
+    };
 
     const router = createBrowserRouter([
         {
             path: "/",
             element: <MainLayout />,
-            errorElement: <div>404</div>,
+            errorElement: <NotFound />,
             children: [
                 {index: true, element: <Home />},
                 {
@@ -151,25 +139,25 @@ export default function App() {
         {
             path: "/admin",
             element: <AdminLayout />,
-            errorElement: <div>404</div>,
+            errorElement: <NotFound />,
             children: [
                 {
                     index: true, element:
-                        <ProtectedRoute user={user}>
+                        <ProtectedRoute>
                             <Dashboard />
                         </ProtectedRoute>
                 },
                 {
                     path: 'user',
                     element:
-                        <ProtectedRoute user={user}>
+                        <ProtectedRoute>
                             <ManageUsers />
                         </ProtectedRoute>
                 },
                 {
                     path: 'book',
                     element:
-                        <ProtectedRoute user={user}>
+                        <ProtectedRoute>
                             <ManageBooks />
                         </ProtectedRoute>
                 }
@@ -178,52 +166,51 @@ export default function App() {
         {
             path: '/auth',
             element: <AuthLayout />,
-            errorElement: <div>404</div>,
+            errorElement: <NotFound />,
             children: [
                 {index: true,
                     element:
-                        <IsLogin user={user}>
+                        // <IsLogin>
                             <Login />
-                        </IsLogin>
-                    },
+                        // </IsLogin>
+                },
                 {
                     path: "register",
                     element:
-                        <IsLogin user={user}>
+                        // <IsLogin>
                             <Register />
-                        </IsLogin>
-                    ,
+                        // </IsLogin>
                 },
             ]
         },
         {
             path: '/order',
             element: <OrderLayout />,
-            errorElement: <div>404</div>,
+            errorElement: <NotFound />,
             children: [
                 {index: true, element:
-                    <ProtectedRoute user={user}>
+                    <ProtectedRoute>
                         <Order />
                     </ProtectedRoute>
                 },
                 {
                     path: 'buy-now',
                     element:
-                        <ProtectedRoute user={user}>
-                            <BuyNow />
+                        <ProtectedRoute>
+                            <Checkout orderList={buyNowItem} />
                         </ProtectedRoute>
                 },
                 {
                     path: 'checkout',
                     element:
-                        <ProtectedRoute user={user}>
-                            <Checkout />
+                        <ProtectedRoute>
+                            <Checkout orderList={orderList} />
                         </ProtectedRoute>
                 },
                 {
                     path: 'order-history',
                     element:
-                        <ProtectedRoute user={user}>
+                        <ProtectedRoute>
                             <OrderHistory />
                         </ProtectedRoute>
                 },

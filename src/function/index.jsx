@@ -42,4 +42,8 @@ const convertSlug = (str) => {
     return str;
 }
 
-export {convertVND, nonAccentVietnamese, convertSlug}
+export {
+    convertVND,
+    nonAccentVietnamese,
+    convertSlug
+}

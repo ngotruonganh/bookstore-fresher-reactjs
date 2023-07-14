@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Col, Divider, Pagination, Row, Tag, Typography} from "antd";
+import {Col, Pagination, Row, Tag, Typography} from "antd";
 import {convertVND} from "../../function/index.jsx";
 import {getHistoryOrder} from "../../services/book.jsx";
 
@@ -23,7 +23,6 @@ const OrderHistory = () => {
             setTotal(res.data.data.meta.total)
         }
     }
-    console.log(order);
     const onChange = (page) => {
         setCurrent(page);
     };
@@ -74,7 +73,9 @@ const OrderHistory = () => {
                         <Col span={24} style={{display: 'flex', justifyContent: 'end', alignItems: 'center'}}>
                             <span> Order Total: </span>
                             &nbsp;
-                            <span style={{justifyContent: "end", color: 'red', fontWeight: "bold", fontSize: '20px'}}>
+                            <span
+                                style={{justifyContent: "end", color: 'red', fontWeight: "bold", fontSize: '20px'}}
+                            >
                                 {convertVND(item.totalPrice)}
                             </span>
                         </Col>

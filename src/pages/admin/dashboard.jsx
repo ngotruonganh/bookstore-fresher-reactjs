@@ -15,7 +15,7 @@ const MyComponent = () => {
     useEffect(() => {
         getDashboardAdmin();
         getTotalBook();
-    }, [allUser, allOrder, topBookSale, totalBook]);
+    }, []);
 
     const getDashboardAdmin = async () => {
         const res = await getDashboard();

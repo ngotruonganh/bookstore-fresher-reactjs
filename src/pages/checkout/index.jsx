@@ -7,11 +7,10 @@ import {useNavigate} from "react-router-dom";
 import TextArea from "antd/es/input/TextArea.js";
 import {checkout} from "../../services/book.jsx";
 
-const Checkout = () => {
+const Checkout = ({orderList}) => {
     const [totalPrice, setTotalPrice] = useState(0);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const orderList = useSelector(state => state.order.cart);
     const account = useSelector(state => state.account.user);
 
     useEffect(() => {
@@ -21,7 +20,6 @@ const Checkout = () => {
         })
         setTotalPrice(sum);
     }, []);
-
 
     const onCheckout = async (values) => {
         const detailOrder = orderList.map(item => {
@@ -40,11 +38,12 @@ const Checkout = () => {
         }
         const res = await checkout(data);
         if (res && res.data) {
-            message.success('success');
+            message.success('Order success');
             dispatch(emptyCart());
             navigate('/order/order-history');
         }
     };
+
     const onCheckoutFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     }
@@ -85,7 +84,7 @@ const Checkout = () => {
                     </Row>
                 )
             })}
-            <Row justify={"end"}>
+            <Row justify='end'>
                 <Col xs={24} xl={6}>
                     <Form
                         name="basic"
@@ -147,8 +146,12 @@ const Checkout = () => {
                                 span: 24,
                             }}
                         >
-                            <Typography.Title level={2}
-                                              style={{color: "red"}}>{convertVND(totalPrice)}</Typography.Title>
+                            <Typography.Title
+                                level={2}
+                                style={{color: "red"}}
+                            >
+                                {convertVND(totalPrice)}
+                            </Typography.Title>
                             <Button htmlType="submit" type='primary' danger style={{width: "100%"}}>
                                 Checkout
                             </Button>

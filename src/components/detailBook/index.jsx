@@ -1,15 +1,16 @@
 import {Descriptions, Drawer} from 'antd';
 
-const DetailBookAdmin = ({item, open, onClose}) => {
+const DetailBookAdmin = ({ item, open, onClose }) => {
     return (
         <Drawer
-            placement='left'
-            closable={true}
-            onClose={onClose}
             open={open}
+            onClose={onClose}
+            closable={true}
+            placement='left'
             size='large'
+            title='Book Info'
         >
-            <Descriptions title="Book Info" bordered column={2}>
+            <Descriptions bordered column={2}>
                 <Descriptions.Item label="Id" span={2}>{item._id}</Descriptions.Item>
                 <Descriptions.Item label="Title">{item.mainText}</Descriptions.Item>
                 <Descriptions.Item label="Author">{item.author}</Descriptions.Item>
@@ -23,4 +24,5 @@ const DetailBookAdmin = ({item, open, onClose}) => {
         </Drawer>
     );
 };
+
 export default DetailBookAdmin;

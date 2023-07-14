@@ -5,12 +5,18 @@ import {useDispatch, useSelector} from "react-redux";
 import {logoutAction} from "../../redux/account/accountSlice.jsx";
 import {emptyCart} from "../../redux/order/orderSlice.jsx";
 
+const linkAuth = {
+    color: 'white',
+    cursor: 'pointer',
+}
+
 const AccountOption = () => {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const isAuth = useSelector(state => state.account.isAuthenticated);
     const user = useSelector(state => state.account.user);
-    const dispatch = useDispatch();
     const handleLogout = async () => {
         // await logout();
         localStorage.removeItem('access_token');
@@ -38,11 +44,12 @@ const AccountOption = () => {
                             </Col>
                             <Divider/>
                             <Col span={24}>
-                                {user ? (
-                                        <Typography.Paragraph onClick={handleLogout} style={{cursor: 'pointer', color: "black"}}>Logout</Typography.Paragraph>
-                                    ) :
-                                    <Link to='/auth' style={{color: "black"}}>Login</Link>
-                                }
+                                <Typography.Paragraph
+                                    onClick={handleLogout}
+                                    style={{cursor: 'pointer', color: "black"}}
+                                >
+                                    Logout
+                                </Typography.Paragraph>
                             </Col>
                         </Row>
                     }
@@ -51,14 +58,19 @@ const AccountOption = () => {
                     onOpenChange={handleOpenChange}
                     placement='bottomRight'
                 >
-                    <p style={{color: 'white', cursor: 'pointer'}}>{user.fullName}</p>
+                    <Typography.Paragraph style={linkAuth}>{user.fullName}</Typography.Paragraph>
                 </Popover>
             ) : (
                 <>
-                    <Link to='/auth' style={{color: 'white', cursor: 'pointer'}}>
-                        <p style={{color: 'white', cursor: 'pointer'}}>Login</p>
-                    </Link>
-                    {/*<Link to='/auth/register' style={{color: 'white', cursor: 'pointer'}}>Sign up</Link>*/}
+                    <div style={{display: 'flex', alignItems: 'center'}}>
+                        <Link to='/auth/register' style={linkAuth}>
+                            Sign Up
+                        </Link>
+                        <Divider type='vertical' style={{backgroundColor: 'white'}}/>
+                        <Link to='/auth' style={linkAuth}>
+                            Login
+                        </Link>
+                    </div>
                 </>
             )}
         </>

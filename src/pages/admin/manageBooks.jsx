@@ -1,10 +1,12 @@
-import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
-import {Button, Col, Input, Pagination, Popconfirm, Row, Space, Table, Typography} from "antd";
+import {DeleteOutlined, EditOutlined, PlusCircleOutlined, ReloadOutlined} from "@ant-design/icons";
+import {Button, Col, Input, Pagination, Popconfirm, Row, Space, Table} from "antd";
 import {useEffect, useState} from "react";
+import {deleteBook, getAllBooks} from "../../services/book.jsx";
 import Loading from "../../components/loading/index.jsx";
 import DetailBookAdmin from "../../components/detailBook/index.jsx";
-import {deleteBook, getAllBooks} from "../../services/book.jsx";
 import BookModalCreate from "./modal.jsx";
+
+const {Search} = Input;
 
 const ManageBooks = () => {
     // modal view detail book
@@ -23,7 +25,7 @@ const ManageBooks = () => {
     const [dataDetail, setDataDetail] = useState([]);
 
     // filter
-    const [mainText, setMainText] = useState("");
+    const [mainText, setMainText] = useState('');
 
     // crud
     const [idDelete, setIdDelete] = useState('');
@@ -96,7 +98,10 @@ const ManageBooks = () => {
                         cancelText="No"
                         placement='topRight'
                     >
-                        <DeleteOutlined style={{color: "red"}} onClick={() => setIdDelete(record._id)}/>
+                        <DeleteOutlined
+                            style={{color: "red"}}
+                            onClick={() => setIdDelete(record._id)}
+                        />
                     </Popconfirm>
                 </Space>
             ),
@@ -128,75 +133,54 @@ const ManageBooks = () => {
         }
     }
 
-    const confirmDeleteBook = async () => {
-        await deleteBook(idDelete);
+    const handleReload = () => {
+        setLoading(true);
+        setMainText('');
+        setCurrentPage(1);
+        getAllBookAdmin();
+        setLoading(false);
     }
 
-    const handleChangeMainText = (e) => {
-        setMainText(e.target.value);
+    const confirmDeleteBook = async () => {
+        await deleteBook(idDelete);
     }
 
     const onChange = (currentPage) => {
         setCurrentPage(currentPage);
     };
 
-    const handleSearch = async () => {
-        if (!mainText) {
-            return;
-        }
+    const handleSearch = async (value) => {
         setLoading(true);
+        setMainText(value);
         await getAllBookAdmin();
         setCurrentPage(1);
         setLoading(false);
     }
-    const [openAdd, setOpenAdd] = useState(false);
-    const [confirmLoading, setConfirmLoading] = useState(false);
-    const showModal = () => {
-        setOpenAdd(true);
-    };
-    const handleOk = () => {
-        setConfirmLoading(true);
-        setTimeout(() => {
-            setOpenAdd(false);
-            setConfirmLoading(false);
-        }, 2000);
-    };
-    const handleCancel = () => {
-        console.log('Clicked cancel button');
-        setOpenAdd(false);
-    };
     return (
         <>
             <Col>
-                <Row gutter={[8, 8]}>
-                    <Col xs={24} md={4}>
-                        <Input placeholder="Book name" onChange={handleChangeMainText}/>
-                    </Col>
-                    <Col xs={24} md={4}>
-                        <Button
-                            type="primary"
-                            onClick={handleSearch}
-                            disabled={!mainText ? true : false}
-                        >
-                            Search
-                        </Button>
-                    </Col>
-                </Row>
-                <Typography.Paragraph style={{marginTop: "30px"}}>
-                    Table of all Book
-                </Typography.Paragraph>
-                <Row gutter={[8, 8]} justify={"end"}>
+                <Row gutter={[8, 8]}
+                     justify='space-between'
+                     style={{marginTop: '15px', marginBottom: '15px'}}
+                >
                     <Col>
-                        <Button type="primary" onClick={showModalCreateBook}>Add</Button>
+                        <Search
+                            placeholder="Input search text"
+                            onSearch={handleSearch}
+                            style={{
+                                width: 200,
+                            }}
+                        />
                     </Col>
                     <Col>
-                        <Button type="primary">Import</Button>
-                    </Col>
-                    <Col>
-                        <Button type="primary">Export</Button>
-                    </Col>
-                    <Col>
-                        <Button type="primary">f5</Button>
+                        <Space wrap>
+                            <Button type="primary" danger onClick={showModalCreateBook}>
+                                <PlusCircleOutlined />
+                            </Button>
+                            <Button type="primary" danger onClick={handleReload}>
+                                <ReloadOutlined />
+                            </Button>
+                        </Space>
                     </Col>
                 </Row>
                 {loading ?
@@ -208,11 +192,11 @@ const ManageBooks = () => {
                                 pagination={false}
                             />
                             <Pagination
-                                style={{textAlign: "end", marginTop: "20px"}}
                                 defaultCurrent={currentPage}
                                 pageSize={pageSize}
                                 total={total}
                                 onChange={onChange}
+                                style={{textAlign: "end", marginTop: "20px"}}
                             />
                         </>
                     )
