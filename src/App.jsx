@@ -112,7 +112,6 @@ export default function App() {
 
     useEffect(() => {
         loginAccount();
-        console.log("effe", user);
     }, [user]);
 
     const IsLogin = ({children}) => {
