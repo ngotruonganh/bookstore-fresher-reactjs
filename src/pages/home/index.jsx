@@ -1,12 +1,13 @@
-import {Button, Checkbox, Col, Divider, Drawer, Dropdown, Pagination, Row, Skeleton, Typography} from "antd";
+import {Button, Checkbox, Col, Divider, Drawer, Dropdown, Pagination, Row, Typography} from "antd";
 import {DownOutlined, FilterOutlined, UnorderedListOutlined} from "@ant-design/icons";
 import {useEffect, useState} from "react";
+import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import ProductItem from "../../components/productItem/index.jsx";
+import Loading from "../../components/loading/index.jsx";
 import {convertSlug} from "../../function/index.jsx";
 import {getAllBooks, getCategories} from "../../services/book.jsx";
-import {useSelector} from "react-redux";
-import Loading from "../../components/loading/index.jsx";
+import '../../styles/components/filter.scss';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -23,7 +24,6 @@ const Home = () => {
     // sort
     const [sort, setSort] = useState('sort=-sold');
     const mainText = useSelector(state => state.search.searchText);
-
 
     useEffect(() => {
         getBooks();
@@ -115,7 +115,6 @@ const Home = () => {
                 <Row gutter={[16, 16]}>
                     <Col
                         xs={24} md={5}
-                        style={{backgroundColor: 'white', borderRadius: "3px", paddingTop: "10px"}}
                         className='filter-d'
                     >
                         <Drawer
@@ -126,7 +125,10 @@ const Home = () => {
                             open={open}
                             width='100%'
                         >
-                            <Typography.Paragraph strong={true} style={{display: "flex", alignItems: "center"}}>
+                            <Typography.Paragraph
+                                strong={true}
+                                style={{display: "flex", alignItems: "center"}}
+                            >
                                 <UnorderedListOutlined/> &nbsp; All Categories
                             </Typography.Paragraph>
                             <Divider/>
@@ -135,9 +137,10 @@ const Home = () => {
                             >
                                 {listCategories.map(item => {
                                     return (
-                                        <Col key={item.id}
-                                             span={24}
-                                             style={{margin: "5px 0"}}
+                                        <Col
+                                            key={item.id}
+                                            span={24}
+                                            style={{margin: "5px 0"}}
                                         >
                                             <Checkbox value={item.label}>
                                                 {item.label}
@@ -168,7 +171,10 @@ const Home = () => {
                                 CLEAR ALL
                             </Button>
                         </Drawer>
-                        <Typography.Paragraph strong={true} style={{display: "flex", alignItems: "center"}}>
+                        <Typography.Paragraph
+                            strong={true}
+                            style={{display: "flex", alignItems: "center"}}
+                        >
                             <UnorderedListOutlined/> &nbsp; All Categories
                         </Typography.Paragraph>
                         <Divider/>
@@ -180,7 +186,7 @@ const Home = () => {
                                     <Col
                                         key={item.id}
                                         span={24}
-                                        style={{margin: "5px 0"}}
+                                        // style={{margin: "5px 0"}}
                                     >
                                         <Checkbox value={item.label}>
                                             {item.label}
@@ -216,8 +222,9 @@ const Home = () => {
                         <Row
                             justify="space-between"
                             align='middle'
-                            style={{backgroundColor: 'white', padding: '20px', borderRadius: "3px"}}
+                            style={{backgroundColor: 'white', borderRadius: "3px", padding: '15px'}}
                         >
+                            <Col span={24}>{mainText}</Col>
                             <Col>
                                 <Row gutter={[8, 8]} style={{display: 'flex', alignItems: 'center'}}>
                                     <Col>
@@ -290,20 +297,22 @@ const Home = () => {
                             </Col>
                         </Row>
                         {/*book home*/}
-                        <Row gutter={[8, 8]} style={{marginTop: "20px", borderRadius: "3px"}}>
+                        <Row gutter={16} style={{ borderRadius: "3px"}}>
                             {listBook && listBook.length > 0 && listBook.map(item => {
                                 return (
-                                    <Col key={item._id}
-                                         onClick={() => handleViewDetailInOrder(item)}
-                                         xs={24} sm={12} lg={8} xl={6} xxl={4}
-                                         style={{padding: '10px'}}>
+                                    <Col
+                                        key={item._id}
+                                        onClick={() => handleViewDetailInOrder(item)}
+                                        xs={24} sm={12} lg={8} xl={6} xxl={4}
+                                        style={{padding: '10px'}}
+                                    >
                                         <ProductItem product={item} />
                                     </Col>
                                 )
                             })}
                         </Row>
                         {/*paginate*/}
-                        <Row justify="center" style={{margin: "20px 0"}}>
+                        <Row justify="center">
                             <Col>
                                 <Pagination
                                     current={current}

@@ -103,7 +103,7 @@ const BookDetail = () => {
                             backgroundColor: "#F5F5F5",
                             padding: '20px'
                         }}>
-                            {bookDetail.price}
+                            {convertVND((bookDetail.price))}
                         </Typography.Title>
                         <div style={{margin: "20px 0"}}>
                             Quantity: &nbsp;

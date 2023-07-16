@@ -1,16 +1,10 @@
-import {Button, Col, Form, Input, message, Pagination, Row, Space, Table, Typography} from 'antd';
+import {Button, Col, Form, Input, message, Pagination, Row, Space, Table} from 'antd';
+import {DeleteOutlined, EditOutlined, PlusCircleOutlined, ReloadOutlined} from "@ant-design/icons";
 import {useEffect, useState} from "react";
 import Loading from "../../components/loading/index.jsx";
-import {DeleteOutlined, EditOutlined, PlusCircleOutlined, ReloadOutlined} from "@ant-design/icons";
 import {deleteUser, getAllUser} from "../../services/user.jsx";
-import {deleteBook} from "../../services/book.jsx";
-
-const content = (
-    <div>
-        <p>Content</p>
-        <p>Content</p>
-    </div>
-);
+import ModalCreateUser from "./modalCreateUser.jsx";
+import ModalUpdateUser from "./modalUpdateUser.jsx";
 
 const ManageUser = () => {
     const [form] = Form.useForm();
@@ -21,10 +15,17 @@ const ManageUser = () => {
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-    const [loading, setLoading] = useState(false);
 
+    const [openModalCreateUser, setOpenModalCreateUser] = useState(false);
+    const [updateItem, setUpdateItem] = useState({});
+    const [openModalUpdateUser, setUpdateModalUpdateUser] = useState(false);
 
-    const dataSource =  data.map(item => {
+    const handleUpdateUser = (item) => {
+        setUpdateItem(item);
+        setUpdateModalUpdateUser(true);
+    }
+
+    const dataSource = data.map(item => {
         return {
             key: item._id,
             _id: item._id,
@@ -55,7 +56,10 @@ const ManageUser = () => {
             title: 'Action', key: 'action', render: (_, record) => (
                 <Space size="middle">
                     <span>
-                        <EditOutlined style={{color: 'blue'}}/>
+                        <EditOutlined
+                            style={{color: 'blue'}}
+                            onClick={() => handleUpdateUser(record)}
+                        />
                     </span>
                     <span>
                         <DeleteOutlined
@@ -74,9 +78,7 @@ const ManageUser = () => {
     }
 
     useEffect(() => {
-        setLoading(true);
         getUser()
-        setLoading(false);
     }, [currentPage]);
 
     const getUser = async () => {
@@ -99,66 +101,107 @@ const ManageUser = () => {
         setPhone(values.phone);
         getUser();
     };
+
+    const handleOpenModalCreateUser = () => {
+        setOpenModalCreateUser(true);
+    }
+    const handleCloseModalCreateUser = () => {
+        setOpenModalCreateUser(false);
+    }
+    const handleCloseModalUpdateUser = () => {
+        setUpdateItem({});
+        setUpdateModalUpdateUser(false);
+    }
+    const handleRefresh = () => {
+        setFullName('');
+        setEmail('');
+        setPhone('');
+        getUser();
+    }
     return (
-        <>
+        <Row justify='space-between'>
             <Col>
-                <Row gutter={[8, 8]} justify='space-between'>
-                    <Col>
-                        <Form
-                            form={form}
-                            layout="vertical"
-                            onFinish={onFinish}
-                            autoComplete="off"
+                <Form
+                    form={form}
+                    layout='vertical'
+                    onFinish={onFinish}
+                    autoComplete="off"
+                    initialValues={{
+                        fullName: '',
+                        email: '',
+                        phone: ''
+                    }}
+                    style={{display: 'flex', alignItems: 'end'}}
+                >
+                    <Space>
+                        <Form.Item
+                        labelCol={{span: 24}}
+                        name="fullName"
+                        label="Full name"
                         >
-                            <Form.Item
-                                name="fullName"
-                                label="Full name"
-                            >
-                                <Input placeholder="input placeholder" />
-                            </Form.Item>
-                            <Form.Item
-                                name="email"
-                                label="Email"
-                            >
-                                <Input placeholder="input placeholder" />
-                            </Form.Item>
-                            <Form.Item
-                                name="phone"
-                                label="Phone"
-                            >
-                                <Input placeholder="input placeholder" />
-                            </Form.Item>
-                            <Form.Item>
-                                <Button type="primary" danger htmlType="submit">
-                                    Search
-                                </Button>
-                            </Form.Item>
-                        </Form>
-                    </Col>
-                    <Col>
-                        <Space wrap>
-                            <Button type="primary" danger >
-                                <PlusCircleOutlined />
-                            </Button>
-                            <Button type="primary" danger>
-                                <ReloadOutlined />
-                            </Button>
-                        </Space>
-                    </Col>
-                </Row>
-                {loading ? <Loading/> : (<>
-                    <Table columns={columns} dataSource={dataSource} pagination={false}
-                           style={{overflowX: "scroll"}}/>
-                    <Pagination
-                        style={{textAlign: "end", marginTop: "20px"}}
-                        defaultCurrent={currentPage}
-                        pageSize={pageSize}
-                        total={total}
-                        onChange={onChange}
-                    />
-                </>)}
+                            <Input placeholder="Search by full name" />
+                        </Form.Item>
+                        <Form.Item
+                            labelCol={{span: 24}}
+                            name="email"
+                            label="Email"
+                        >
+                            <Input placeholder="Search by email" />
+                        </Form.Item>
+                        <Form.Item
+                            labelCol={{span: 24}}
+                            name="phone"
+                            label="Phone"
+                        >
+                            <Input placeholder="Search by phone" />
+                        </Form.Item>
+                        <Button type="primary" danger htmlType="submit">
+                            Search
+                        </Button>
+                    </Space>
+                </Form>
             </Col>
-        </>
+            <Col>
+                <Space wrap>
+                    <Button type="primary" danger onClick={handleOpenModalCreateUser}>
+                        <PlusCircleOutlined />
+                    </Button>
+                    <Button type="primary" danger onClick={handleRefresh}>
+                        <ReloadOutlined />
+                    </Button>
+                </Space>
+            </Col>
+            <ModalCreateUser
+                openModalCreateUser={openModalCreateUser}
+                onCloseModalCreateUser={handleCloseModalCreateUser}
+            />
+            <ModalUpdateUser
+                openModalUpdateUser={openModalUpdateUser}
+                onCloseModalUpdateUser={handleCloseModalUpdateUser}
+                updateItem={updateItem}
+            />
+            <Col span={24}>
+                {data && data.length > 0 ? (
+                    <>
+                        <Table
+                            columns={columns}
+                            dataSource={dataSource}
+                            pagination={false}
+                            style={{overflowX: "scroll"}}
+                        />
+                        <Pagination
+                            style={{textAlign: "end", marginTop: "20px"}}
+                            defaultCurrent={currentPage}
+                            pageSize={pageSize}
+                            total={total}
+                            onChange={onChange}
+                        />
+                    </>
+                ) : (
+                    <Loading/>
+                )}
+            </Col>
+        </Row>
     );
 }
 export default ManageUser;

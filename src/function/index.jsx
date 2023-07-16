@@ -1,4 +1,14 @@
+const convertQuantity = (x) => {
+    if(x === undefined){
+        return x;
+    }
+    return x.toLocaleString("En-US");
+}
+
 const convertVND = (x) => {
+    if(x === undefined){
+        return x;
+    }
     return x.toLocaleString("pt-BR", {style:"currency", currency:"VND"});
 }
 
@@ -43,6 +53,7 @@ const convertSlug = (str) => {
 }
 
 export {
+    convertQuantity,
     convertVND,
     convertSlug
 }

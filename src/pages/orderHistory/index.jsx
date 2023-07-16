@@ -2,17 +2,17 @@ import {useEffect, useState} from "react";
 import {Col, Pagination, Row, Tag, Typography} from "antd";
 import {convertVND} from "../../function/index.jsx";
 import {getHistoryOrder} from "../../services/book.jsx";
+import Loading from "../../components/loading/index.jsx";
 
 const OrderHistory = () => {
     const [order, setOrder] = useState([]);
     const [current, setCurrent] = useState(1);
-    const [total, setTotal] = useState(0);
+    const [total, setTotal] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [loading, setLoading] = useState(false);
+
     useEffect(() => {
-        setLoading(true);
         getOrder();
-        setLoading(false);
     }, [current]);
 
     const getOrder = async () => {
@@ -28,10 +28,15 @@ const OrderHistory = () => {
     };
     return (
         <>
-            {order.map(item => {
+            {order && order.length > 0 ? (
+                <>
+                {order.map(item => {
                 return (
-                    <Row key={item._id} justify='end' align='top'
-                         style={{marginTop: "10px", padding: '10px', backgroundColor: "white"}}
+                    <Row
+                        key={item._id}
+                        justify='end'
+                        align='top'
+                        style={{marginTop: "10px", padding: '10px', backgroundColor: "white"}}
                     >
                         <Col span={24} style={{textAlign: 'end'}}>
                             <Tag color='error'>
@@ -42,22 +47,22 @@ const OrderHistory = () => {
                             </Tag>
                         </Col>
                         <Col span={16}>
-                                {item.detail.map(detail => {
-                                    return (
-                                        <Row key={detail._id} justify='space-between' align='middle'>
-                                            <Col span={22}>
-                                                <Typography.Paragraph>
-                                                    {detail.bookName}
-                                                </Typography.Paragraph>
-                                            </Col>
-                                            <Col span={2}>
-                                                <Typography.Paragraph>
-                                                    x{detail.quantity}
-                                                </Typography.Paragraph>
-                                            </Col>
-                                        </Row>
-                                    )
-                                })}
+                            {item.detail.map(detail => {
+                                return (
+                                    <Row key={detail._id} justify='space-between' align='middle'>
+                                        <Col span={22}>
+                                            <Typography.Paragraph>
+                                                {detail.bookName}
+                                            </Typography.Paragraph>
+                                        </Col>
+                                        <Col span={2}>
+                                            <Typography.Paragraph>
+                                                x{detail.quantity}
+                                            </Typography.Paragraph>
+                                        </Col>
+                                    </Row>
+                                )
+                            })}
                         </Col>
                         <Col span={8}>
                             <Typography.Paragraph>
@@ -85,6 +90,12 @@ const OrderHistory = () => {
             <Row justify="center" style={{margin: "20px 0"}}>
                 <Pagination current={current} pageSize={pageSize} total={total} onChange={onChange}/>
             </Row>
+        </>
+
+                ) : (
+                    <Loading />
+                )}
+
         </>
     );
 };

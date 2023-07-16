@@ -5,6 +5,7 @@ import {deleteBook, getAllBooks} from "../../services/book.jsx";
 import Loading from "../../components/loading/index.jsx";
 import DetailBookAdmin from "../../components/detailBook/index.jsx";
 import BookModalCreate from "./modal.jsx";
+import {convertQuantity, convertVND} from "../../function/index.jsx";
 
 const {Search} = Input;
 
@@ -70,14 +71,30 @@ const ManageBooks = () => {
         },
         {
             title: 'Title', dataIndex: 'mainText', key: 'MainText',
-            defaultSortOrder: 'descend',
-            // sorter: (a, b) => a.age - b.age,
         },
         {
-            title: 'Price', dataIndex: 'price', key: 'price',
+            title: 'Price',
+            dataIndex: 'price',
+            key: 'price',
+            render: (_, record) => {
+                return (
+                    <span>
+                        {convertVND(record.price)}
+                    </span>
+                )
+            }
         },
         {
-            title: 'Quantity', dataIndex: 'quantity', key: 'quantity',
+            title: 'Quantity',
+            dataIndex: 'quantity',
+            key: 'quantity',
+            render: (_, record) => {
+                return (
+                    <span>
+                        {convertQuantity(record.quantity)}
+                    </span>
+                )
+            }
         },
         {
             title: 'Sold', dataIndex: 'sold', key: 'sold',

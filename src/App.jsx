@@ -28,7 +28,7 @@ import Checkout from "./pages/checkout/index.jsx";
 import NotFound from "./pages/notFound/index.jsx";
 
 import {callFetchAccount} from "./services/auth.jsx";
-import {getLoginAction, loginAction} from "./redux/account/accountSlice.jsx";
+import {getLoginAction} from "./redux/account/accountSlice.jsx";
 
 const MainLayout = () => {
     return (
@@ -85,7 +85,11 @@ const AdminLayout = () => {
                     <BottomHeaderNoCart />
                 </Col>
             </Row>
-            <Row gutter={[16, 16]} justify="center" style={{marginTop: "30px"}}>
+            <Row
+                gutter={[16, 16]}
+                justify="center"
+                style={{marginTop: "30px"}}
+            >
                 <Col span={5}>
                     <Admin />
                 </Col>
@@ -109,13 +113,13 @@ export default function App() {
         }
     }
     const user = useSelector(state => state.account.isAuthenticated);
+    console.log(user);
 
     useEffect(() => {
         loginAccount();
-    }, [user]);
+    }, []);
 
     const IsLogin = ({children}) => {
-        const user = useSelector(state => state.account.isAuthenticated);
         if (!user) {
             return children;
         }
@@ -169,16 +173,16 @@ export default function App() {
             children: [
                 {index: true,
                     element:
-                        // <IsLogin>
+                        <IsLogin>
                             <Login />
-                        // </IsLogin>
+                        </IsLogin>
                 },
                 {
                     path: "register",
                     element:
-                        // <IsLogin>
+                        <IsLogin>
                             <Register />
-                        // </IsLogin>
+                        </IsLogin>
                 },
             ]
         },

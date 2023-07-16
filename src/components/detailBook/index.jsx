@@ -1,4 +1,5 @@
 import {Descriptions, Drawer} from 'antd';
+import {convertQuantity, convertVND} from "../../function/index.jsx";
 
 const DetailBookAdmin = ({ item, open, onClose }) => {
     return (
@@ -15,8 +16,8 @@ const DetailBookAdmin = ({ item, open, onClose }) => {
                 <Descriptions.Item label="Title">{item.mainText}</Descriptions.Item>
                 <Descriptions.Item label="Author">{item.author}</Descriptions.Item>
                 <Descriptions.Item label="Category">{item.category}</Descriptions.Item>
-                <Descriptions.Item label="Price">{item.price}</Descriptions.Item>
-                <Descriptions.Item label="quantity">{item.quantity}</Descriptions.Item>
+                <Descriptions.Item label="Price">{convertVND(item.price)}</Descriptions.Item>
+                <Descriptions.Item label="quantity">{convertQuantity(item.quantity)}</Descriptions.Item>
                 <Descriptions.Item label="Sold">{item.sold}</Descriptions.Item>
                 <Descriptions.Item label="Created at">{item.createdAt}</Descriptions.Item>
                 <Descriptions.Item label="Updated at">{item.updatedAt}</Descriptions.Item>
