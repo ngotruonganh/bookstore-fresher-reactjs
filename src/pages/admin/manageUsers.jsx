@@ -79,7 +79,7 @@ const ManageUser = () => {
 
     useEffect(() => {
         getUser()
-    }, [currentPage]);
+    }, [currentPage, data]);
 
     const getUser = async () => {
         const query = `/api/v1/user?current=${currentPage}&pageSize=${pageSize}&sort=-createdAt&fullName=/${fullName}/i&email=/${email}/i&phone=/${phone}/i`;

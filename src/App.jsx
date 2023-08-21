@@ -39,7 +39,7 @@ const MainLayout = () => {
                     <BottomHeaderWithCart />
                 </Col>
             </Row>
-            <Row justify="center" style={{marginTop: "30px"}}>
+            <Row justify="center" style={{margin: "30px 0"}}>
                 <Col xs={23} xl={20}>
                     <Outlet />
                 </Col>
@@ -57,7 +57,7 @@ const OrderLayout = () => {
                     <BottomHeaderNoCart />
                 </Col>
             </Row>
-            <Row justify="center" style={{marginTop: "30px"}}>
+            <Row justify="center" style={{margin: "30px 0"}}>
                 <Col xs={23} xl={20}>
                     <Outlet />
                 </Col>
@@ -88,7 +88,7 @@ const AdminLayout = () => {
             <Row
                 gutter={[16, 16]}
                 justify="center"
-                style={{marginTop: "30px"}}
+                style={{margin: "30px 0"}}
             >
                 <Col span={5}>
                     <Admin />

@@ -19,7 +19,7 @@ const Home = () => {
     const [filerCategories, setFilterCategories] = useState([]);
     // pagination
     const [current, setCurrent] = useState(1);
-    const pageSize = 4;
+    const pageSize = 6;
     const [total, setTotal] = useState(0);
     // sort
     const [sort, setSort] = useState('sort=-sold');
@@ -114,7 +114,7 @@ const Home = () => {
             {listBook && listBook.length > 0 ? (
                 <Row gutter={[16, 16]}>
                     <Col
-                        xs={24} md={5}
+                        xs={23} md={5}
                         className='filter-d'
                     >
                         <Drawer
@@ -303,7 +303,7 @@ const Home = () => {
                                     <Col
                                         key={item._id}
                                         onClick={() => handleViewDetailInOrder(item)}
-                                        xs={24} sm={12} lg={8} xl={6} xxl={4}
+                                        xs={12} sm={8} xl={6} xxl={4}
                                         style={{padding: '10px'}}
                                     >
                                         <ProductItem product={item} />
